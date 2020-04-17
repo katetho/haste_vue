@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import AddTicket from "../components/AddTicket.vue";
+import Missing from "../views/404.vue";
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "*",
     name: "404",
-    component: () => import("../views/404.vue")
+    component: Missing
   },
   {
     path: "/",
