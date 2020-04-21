@@ -54,7 +54,7 @@
           </el-row>
           <el-divider></el-divider>
           <el-row>
-            <Tickets />
+            <router-view></router-view>
           </el-row>
         </el-main>
       </el-container>
@@ -65,6 +65,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Tickets from "@/components/Tickets.vue";
+import AddTicket from "@/components/AddTicket.vue";
 import StatusFilter from "@/components/StatusFilter.vue";
 import TicketFilter from "@/components/TicketFilter.vue";
 
@@ -72,7 +73,8 @@ import TicketFilter from "@/components/TicketFilter.vue";
   components: {
     Tickets,
     StatusFilter,
-    TicketFilter
+    TicketFilter,
+    AddTicket
   }
 })
 export default class Home extends Vue {

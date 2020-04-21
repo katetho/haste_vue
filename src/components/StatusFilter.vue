@@ -11,9 +11,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { FilterOptions } from "../types/types"
 @Component
 export default class StatusFilter extends Vue {
-  @Prop() private options: Array<object> = [
+  @Prop() options: FilterOptions[] = [
     { value: "active", label: "Active" },
     {
       value: "assigned",

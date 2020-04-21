@@ -56,19 +56,21 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { FormData } from "../types/types";
 @Component
 export default class AddTicket extends Vue {
-  @Prop() private form: object = {
+  @Prop() form: FormData = {
     title: "",
     department: "",
-    deadline: "",
+    deadline: new Date(),
     priority: "",
     description: ""
   };
   onSubmit() {
-    console.log("submit!");
+    console.log(this.form);
   }
 }
+console.log(this);
 </script>
 
 <style></style>

@@ -6,9 +6,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { FilterOptions } from "../types/types"
 @Component
 export default class TicketFilter extends Vue {
-  @Prop() private options: Array<object> = [
+  @Prop() private options: FilterOptions[] = [
     { value: "", label: "List All" },
     {
       value: "outgoing",

@@ -51,21 +51,4 @@ export default {
   margin-top: 18px;
   margin-bottom: 18px;
 }
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-
-.box-card {
-  width: 100%;
-}
-
-.el-cardheader {
-  padding: 2px 4px 2px 4px;
-}
 </style>

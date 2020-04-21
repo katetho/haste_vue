@@ -20,7 +20,6 @@
 }
 
 body {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   line-height: 1.6;
   background: #e8f7f0;
 }
@@ -30,4 +29,21 @@ body {
   margin: auto;
   overflow: auto;
   padding: 0 2rem;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.box-card {
+  width: 100%;
+}
+
+.el-cardheader {
+  padding: 2px 4px 2px 4px;
 }
