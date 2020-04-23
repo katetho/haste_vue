@@ -1,19 +1,21 @@
 import axios from "axios";
 
 const state = {
-  tickets: []
+  tickets: ['Hello']
 };
 
 const actions = {
   async fetchTickets({ commit }) {
-    const res = await axios.get("http://localhost:3002");
+    const res = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
     console.log(res.data);
-    commit("setTickets", res.data);
+    commit("setDate", res.data);
   }
 };
 
 const mutations = {
-  setTickets: (state: any, tickets: any) => (state.tickets = tickets)
+  setDate(state, payload) {
+    state.tickets = payload
+  },
 };
 
 const getters = {

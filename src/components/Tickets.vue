@@ -1,6 +1,7 @@
 <template>
   <el-row>
-    <el-col
+    {{tickets}} 
+    <!-- <el-col
       :span="8"
       v-for="(o, index) in 4"
       :key="o"
@@ -17,23 +18,28 @@
           {{ "List item " + o }}
         </div>
       </el-card>
-    </el-col>
+    </el-col> -->
   </el-row>
 </template>
 
-<script>
-//import { Component, Prop, Vue } from "vue-property-decorator";
-import { mapGetters, mapActions } from "vuex";
-export default {
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+const tickets = namespace("tickets");
+
+@Component({
   name: "Tickets",
-  methods: {
-    ...mapActions(["fetchTickets"])
-  },
-  computed: mapGetters(["allTickets"]),
+  components: {}
+})
+export default class Tickets extends Vue {
+  @tickets.State tickets;
+  @tickets.Action fetchTickets;
+
   created() {
     this.fetchTickets();
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
