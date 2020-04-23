@@ -7,6 +7,7 @@ import Home from "../views/Home.vue";
 import Users from "../views/Users.vue";
 import AddTicket from "../components/AddTicket.vue";
 import Missing from "../views/404.vue";
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,7 @@ const routes: Array<RouteConfig> = [
     children: [
       {
         path: "signin",
+        name: "signin",
         component: Signin
       },
       {
@@ -35,6 +37,15 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
+    beforeEnter: (to, from, next) => {
+      if(store.state.authenticated == false) {
+        console.log(store.state)
+        next('users/signin');
+      }
+      else {
+        next()
+      }
+    },
     children: [
       {
         path: "add",
@@ -42,6 +53,7 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: "/",
+        name: "listTickets",
         component: Tickets
       }
     ]

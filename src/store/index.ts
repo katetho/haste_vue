@@ -1,10 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import tickets from "./modules/tickets";
+import { state, getters } from "./modules/tickets";
+import ticketState from "./modules/tickets";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  state,
+  getters,
   modules: {
-    tickets
+    ticketState
   }
 });

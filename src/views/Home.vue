@@ -31,21 +31,21 @@
         <el-main>
           <el-row>
             <el-col :span="16">
-              <div class="grid-content bg-purple-dark">
+              <div class="grid-content">
                 <el-col :span="8">
-                  <div class="grid-content bg-purple-dark">
+                  <div class="grid-content">
                     <StatusFilter />
                   </div>
                 </el-col>
                 <el-col :span="8">
-                  <div class="grid-content bg-purple-dark">
+                  <div class="grid-content">
                     <TicketFilter />
                   </div>
                 </el-col>
               </div>
             </el-col>
             <el-col :span="8">
-              <div class="grid-content bg-purple-dark">
+              <div class="grid-content">
                 <el-button type="primary" @click="$router.push('add')"
                   >New Ticket</el-button
                 >

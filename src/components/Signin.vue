@@ -8,8 +8,8 @@
     <el-form-item>
       <el-col :span="11">
         <el-input
-          placeholder="Password"
-          v-model="form.password"
+          placeholder="Email"
+          v-model="form.email"
           style="width: 100%;"
         ></el-input>
       </el-col>
@@ -17,6 +17,7 @@
     <el-form-item>
       <el-col :span="11">
         <el-input
+          type="password"
           placeholder="Password"
           v-model="form.password"
           style="width: 100%;"
@@ -35,6 +36,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { FormSignin } from "../types/types";
+
 @Component
 export default class AddTicket extends Vue {
   @Prop() form: FormSignin = {
@@ -42,7 +44,16 @@ export default class AddTicket extends Vue {
     password: ""
   };
   onSubmit() {
-    console.log(this.form);
+    this.$store.dispatch("ticketState/retrieveToken", {
+      email: this.form.email,
+      password: this.form.password
+    }).then(res=>{
+      console.log(res)
+      if(res.status===200) {
+      this.$router.push({ name: 'listTickets' })
+      }
+      })
+      .catch(err=>console.log(err))
   }
 }
 console.log(this);

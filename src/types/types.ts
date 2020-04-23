@@ -24,3 +24,8 @@ export interface FilterOptions {
     value: string;
     label: string;
   }
+
+export interface State {
+  authenticated: boolean;
+  tickets: string[];
+}

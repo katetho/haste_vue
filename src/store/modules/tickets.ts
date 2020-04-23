@@ -1,24 +1,38 @@
 import axios from "axios";
+import { GetterTree } from 'vuex'
+import { State } from "../../types/types";
 
-const state = {
+export const state: State = {
+  authenticated: true,
   tickets: []
 };
 
 const actions = {
-  async fetchTickets({ commit }) {
+  retrieveToken(context, creds) {
+  return new Promise((resolve, reject)=>{
+  axios.post("http://localhost:3002/users/signin", creds)
+  .then(res=>resolve(res))
+  .catch(err=>reject(err))
+    })
+  },
+  async fetchData({ commit }) {
     const res = await axios.get("http://localhost:3002");
-    console.log(res.data);
-    commit("setTickets", res.data);
+    commit("setData", res.data);
   }
 };
 
 const mutations = {
-  setTickets: (state: any, tickets: any) => (state.tickets = tickets)
+  setData(state, payload) {
+    state.tickets = payload
+  },
+  setAuthentication: (state: any, status: any) => (state.authenticated = status)
 };
 
-const getters = {
+export const getters: GetterTree<State, any> = {
   allTickets: (state: any) => state.tickets
 };
+
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 export default {
   namespaced: true,
@@ -26,4 +40,4 @@ export default {
   mutations,
   actions,
   getters
-};
+}
