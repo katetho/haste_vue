@@ -3,15 +3,31 @@ import { GetterTree } from 'vuex'
 import { State } from "../../types/types";
 
 export const state: State = {
-  authenticated: true,
+  authenticated: false,
   tickets: []
 };
 
 const actions = {
-  retrieveToken(context, creds) {
+  unathenticate(context) {
+      return new Promise((resolve, reject)=>{
+        axios.post("http://localhost:3002/users/signout")
+        .then(res=>{
+          context.commit('unathenticate')
+          console.log(res)
+          resolve(res);
+        })
+        .catch(err=>{
+          context.commit('unathenticate')
+          reject(err)
+        })
+          })
+  },
+  authenticate(context, creds) {
   return new Promise((resolve, reject)=>{
   axios.post("http://localhost:3002/users/signin", creds)
-  .then(res=>resolve(res))
+  .then(res=>{
+    context.commit("setAuthentication");
+    resolve(res)})
   .catch(err=>reject(err))
     })
   },
@@ -22,17 +38,18 @@ const actions = {
 };
 
 const mutations = {
-  setData(state, payload) {
+  setData(state: State, payload) {
     state.tickets = payload
   },
-  setAuthentication: (state: any, status: any) => (state.authenticated = status)
+  setAuthentication: (state: State) => (state.authenticated = true),
+  unathenticate: (state: State) => (state.authenticated = false)
 };
 
 export const getters: GetterTree<State, any> = {
-  allTickets: (state: any) => state.tickets
+  loggedIn: (state: State) => state.authenticated,
+  allTickets: (state: State) => state.tickets
 };
 
-import { Component, Prop, Vue } from "vue-property-decorator";
 
 export default {
   namespaced: true,

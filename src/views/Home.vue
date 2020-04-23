@@ -22,7 +22,7 @@
               <i class="el-icon-menu"></i>
               <span>Take a ticket</span>
             </el-menu-item>
-            <el-menu-item index="4" align="left">
+            <el-menu-item index="4" @click="logOut" align="left">
               <i class="el-icon-menu"></i>
               <span>Logout</span>
             </el-menu-item>
@@ -79,5 +79,12 @@ import TicketFilter from "@/components/TicketFilter.vue";
 })
 export default class Home extends Vue {
   @Prop() private input!: string;
+
+  logOut() {
+    this.$store.dispatch("ticketState/unathenticate")
+    .then((res)=>{
+      this.$router.push({ name: 'signin' })
+    });
+  }
 }
 </script>

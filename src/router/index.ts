@@ -16,15 +16,24 @@ const routes: Array<RouteConfig> = [
     path: "/users",
     name: "Users",
     component: Users,
+    meta: {
+      requiresVisitor: true
+    },
     children: [
       {
         path: "signin",
         name: "signin",
-        component: Signin
+        component: Signin,
+        meta: {
+          requiresVisitor: true
+        }
       },
       {
         path: "register",
-        component: Register
+        component: Register,
+        meta: {
+          requiresVisitor: true
+        }
       }
     ]
   },
@@ -37,14 +46,8 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if(store.state.authenticated == false) {
-        console.log(store.state)
-        next('users/signin');
-      }
-      else {
-        next()
-      }
+    meta: {
+      requiresAuth: true
     },
     children: [
       {
@@ -63,5 +66,31 @@ const routes: Array<RouteConfig> = [
 const router = new VueRouter({
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters.loggedIn) {
+      next({
+        path: 'signin'
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (store.getters.loggedIn) {
+      next({
+        path: 'listTickets'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})
 
 export default router;

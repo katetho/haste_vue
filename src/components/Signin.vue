@@ -44,7 +44,7 @@ export default class AddTicket extends Vue {
     password: ""
   };
   onSubmit() {
-    this.$store.dispatch("ticketState/retrieveToken", {
+    this.$store.dispatch("ticketState/authenticate", {
       email: this.form.email,
       password: this.form.password
     }).then(res=>{
