@@ -1,25 +1,25 @@
 <template>
-  <el-form ref="form" :model="form" label-width="120px" align="left">
+  <el-form ref="ruleForm" :model="ruleForm" label-width="120px" align="left">
     <el-form-item>
       <el-col :span="11">
         <h1 align="center">Sign in</h1>
       </el-col>
     </el-form-item>
-    <el-form-item>
+    <el-form-item prop="email">
       <el-col :span="11">
         <el-input
           placeholder="Email"
-          v-model="form.email"
+          v-model="ruleForm.email"
           style="width: 100%;"
         ></el-input>
       </el-col>
     </el-form-item>
-    <el-form-item>
+    <el-form-item prop="pass">
       <el-col :span="11">
         <el-input
           type="password"
           placeholder="Password"
-          v-model="form.password"
+          v-model="ruleForm.password"
           style="width: 100%;"
         ></el-input>
       </el-col>
@@ -38,16 +38,37 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { FormSignin } from "../types/types";
 
 @Component
-export default class AddTicket extends Vue {
-  @Prop() form: FormSignin = {
+export default class Signin extends Vue {
+  @Prop() ruleForm: FormSignin = {
     email: "",
     password: ""
   };
+
+    validatePass = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('Please input the password'));
+    } else {
+      callback();
+    }
+  };
+
+  get rules() {
+    return {
+      pass: [{ validator: this.validatePass, trigger: 'blur' }],
+      email: [
+            { required: true, message: 'Please enter your email', trigger: 'blur' },
+            { min: 3, max: 20, message: 'Length should be 3 to 20', trigger: 'blur' }
+          ],
+    };
+  }
+
   onSubmit() {
-    this.$store
+        (this.$refs["ruleForm"] as any).validate((valid) => {
+      if (valid) {
+        this.$store
       .dispatch("ticketState/authenticate", {
-        email: this.form.email,
-        password: this.form.password
+        email: this.ruleForm.email,
+        password: this.ruleForm.password
       })
       .then(res => {
         console.log(res);
@@ -56,6 +77,11 @@ export default class AddTicket extends Vue {
         }
       })
       .catch(err => console.log(err));
+        return true;
+      }
+      console.log('error submit!!');
+      return false;
+    });
   }
 }
 console.log(this);
