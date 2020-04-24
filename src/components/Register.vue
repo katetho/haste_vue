@@ -36,17 +36,13 @@
         </el-select>
       </el-col>
       <el-col :span="11">
-        <el-select v-model="form.priority" placeholder="Priority">
-          <el-option label="Urgent" value="Urgent"></el-option>
-          <el-option label="High" value="High"></el-option>
-          <el-option label="Normal" value="Normal"></el-option>
-          <el-option label="Low" value="Low"></el-option>
-        </el-select>
+        <el-input v-model="form.email" placeholder="Email"> </el-input>
       </el-col>
     </el-form-item>
     <el-form-item>
       <el-col :span="11">
         <el-input
+          type="password"
           placeholder="Password"
           v-model="form.password"
           style="width: 100%;"
@@ -54,6 +50,7 @@
       </el-col>
       <el-col :span="11">
         <el-input
+          type="password"
           placeholder="Repeat Password"
           v-model="form.repPassword"
           style="width: 100%;"
@@ -83,7 +80,22 @@ export default class AddTicket extends Vue {
     repPassword: ""
   };
   onSubmit() {
-    console.log(this.form);
+    this.$store
+      .dispatch("ticketState/register", {
+        firstName: this.form.firstName,
+        lastName: this.form.lastName,
+        email: this.form.email,
+        department: this.form.department,
+        password: this.form.password,
+        repPassword: this.form.repPassword
+      })
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.$router.push({ name: "signin" });
+        }
+      })
+      .catch(err => console.log(err));
   }
 }
 console.log(this);

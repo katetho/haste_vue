@@ -81,9 +81,8 @@ export default class Home extends Vue {
   @Prop() private input!: string;
 
   logOut() {
-    this.$store.dispatch("ticketState/unathenticate")
-    .then((res)=>{
-      this.$router.push({ name: 'signin' })
+    this.$store.dispatch("ticketState/unathenticate").then(() => {
+      this.$router.push({ name: "signin" });
     });
   }
 }

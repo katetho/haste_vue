@@ -7,7 +7,7 @@ import Home from "../views/Home.vue";
 import Users from "../views/Users.vue";
 import AddTicket from "../components/AddTicket.vue";
 import Missing from "../views/404.vue";
-import store from '@/store';
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -73,24 +73,22 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (!store.getters.loggedIn) {
       next({
-        path: 'signin'
-      })
+        path: "signin"
+      });
     } else {
-      next()
+      next();
     }
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
     if (store.getters.loggedIn) {
       next({
-        path: 'listTickets'
-      })
+        path: "listTickets"
+      });
     } else {
-      next()
+      next();
     }
   } else {
-    next() // make sure to always call next()!
+    next(); // make sure to always call next()!
   }
-})
+});
 
 export default router;

@@ -44,16 +44,18 @@ export default class AddTicket extends Vue {
     password: ""
   };
   onSubmit() {
-    this.$store.dispatch("ticketState/authenticate", {
-      email: this.form.email,
-      password: this.form.password
-    }).then(res=>{
-      console.log(res)
-      if(res.status===200) {
-      this.$router.push({ name: 'listTickets' })
-      }
+    this.$store
+      .dispatch("ticketState/authenticate", {
+        email: this.form.email,
+        password: this.form.password
       })
-      .catch(err=>console.log(err))
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.$router.push({ name: "listTickets" });
+        }
+      })
+      .catch(err => console.log(err));
   }
 }
 console.log(this);

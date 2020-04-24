@@ -8,17 +8,15 @@
     >
       <el-card :body-style="{ padding: '0px' }">
         <div slot="header" class="clearfix el-cardheader" align="left">
-          <span>{{ticket.title}}</span>
+          <span>{{ ticket.title }}</span>
           <el-button style="float: right; padding: 3px 0" type="text"
             >Close Ticket
           </el-button>
         </div>
-        <div  class="text item">
-          {{ticket.description}}
+        <div class="text item">
+          {{ ticket.description }}
         </div>
-        <div  class="text item">
-          Deadline: {{ticket.deadline}}
-        </div>
+        <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
     </el-col>
   </el-row>

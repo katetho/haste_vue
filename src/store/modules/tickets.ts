@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetterTree } from 'vuex'
+import { GetterTree } from "vuex";
 import { State } from "../../types/types";
 
 export const state: State = {
@@ -8,28 +8,44 @@ export const state: State = {
 };
 
 const actions = {
-  unathenticate(context) {
-      return new Promise((resolve, reject)=>{
-        axios.post("http://localhost:3002/users/signout")
-        .then(res=>{
-          context.commit('unathenticate')
-          console.log(res)
+  register(context, data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("http://localhost:3002/users/register", data)
+        .then(res => {
+          console.log(res);
           resolve(res);
         })
-        .catch(err=>{
-          context.commit('unathenticate')
-          reject(err)
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  unathenticate(context) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("http://localhost:3002/users/signout")
+        .then(res => {
+          context.commit("unathenticate");
+          console.log(res);
+          resolve(res);
         })
-          })
+        .catch(err => {
+          context.commit("unathenticate");
+          reject(err);
+        });
+    });
   },
   authenticate(context, creds) {
-  return new Promise((resolve, reject)=>{
-  axios.post("http://localhost:3002/users/signin", creds)
-  .then(res=>{
-    context.commit("setAuthentication");
-    resolve(res)})
-  .catch(err=>reject(err))
-    })
+    return new Promise((resolve, reject) => {
+      axios
+        .post("http://localhost:3002/users/signin", creds)
+        .then(res => {
+          context.commit("setAuthentication");
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
   },
   async fetchData({ commit }) {
     const res = await axios.get("http://localhost:3002");
@@ -39,7 +55,7 @@ const actions = {
 
 const mutations = {
   setData(state: State, payload) {
-    state.tickets = payload
+    state.tickets = payload;
   },
   setAuthentication: (state: State) => (state.authenticated = true),
   unathenticate: (state: State) => (state.authenticated = false)
@@ -50,11 +66,10 @@ export const getters: GetterTree<State, any> = {
   allTickets: (state: State) => state.tickets
 };
 
-
 export default {
   namespaced: true,
   state,
   mutations,
   actions,
   getters
-}
+};
