@@ -164,23 +164,21 @@ export default class Register extends Vue {
             repPassword: this.ruleForm.repPassword
           })
           .then(res => {
-            console.log(res);
             if (res.status === 200) {
               this.$router.push({ name: "signin" });
             }
           })
-          .catch(err => console.log(err));
-        this.ruleForm = {
-          password: "",
-          repPassword: "",
-          firstName: "",
-          lastName: "",
-          email: "",
-          department: ""
-        };
+          .catch(err => {
+            const errorMsg = err.response.data.join(", ");
+            this.$notify({
+              group: "form",
+              type: "error",
+              text: errorMsg[0].toUpperCase() + errorMsg.slice(1)
+            });
+          });
         return true;
       }
-      console.log("error submit!!");
+      console.log("error!!");
       return false;
     });
   }
@@ -191,5 +189,4 @@ export default class Register extends Vue {
     ref.resetFields();
   }
 }
-console.log(this);
 </script>

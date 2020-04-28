@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 const tickets = namespace("ticketState");
@@ -33,6 +33,8 @@ const tickets = namespace("ticketState");
   components: {}
 })
 export default class Tickets extends Vue {
+  @Prop() index: number;
+
   @tickets.State tickets;
   @tickets.Action fetchData;
 

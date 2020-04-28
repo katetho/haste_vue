@@ -6,8 +6,6 @@
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
           >
             <el-menu-item index="3" align="left">
               <span>

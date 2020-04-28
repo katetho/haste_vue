@@ -35,18 +35,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { FormSignin } from "../types/types";
 
 @Component
 export default class Signin extends Vue {
-   ruleForm: FormSignin = {
+  ruleForm: FormSignin = {
     email: "",
-    password: "",
+    password: ""
   };
 
   validatePass = (rule, value, callback) => {
-    if ((/^(?=\w*\d)(?=\w*[a-zA-Z])\w{8,50}$/).test(value)) {
+    if (/^(?=\w*\d)(?=\w*[a-zA-Z])\w{8,50}$/.test(value)) {
       callback();
     } else {
       callback(new Error("Incorrect password"));
@@ -64,31 +64,44 @@ export default class Signin extends Vue {
   get rules() {
     return {
       password: [{ validator: this.validatePass, trigger: "blur" }],
-      email: [{ validator: this.validateEmail, trigger: "blur" }],
+      email: [{ validator: this.validateEmail, trigger: "blur" }]
     };
   }
 
   submitForm(formName) {
-    (this.$refs["ruleForm"] as any).validate((valid) => {
+    (this.$refs[formName] as any).validate(valid => {
       if (valid) {
         this.$store
           .dispatch("ticketState/authenticate", {
             email: this.ruleForm.email,
-            password: this.ruleForm.password,
+            password: this.ruleForm.password
           })
-          .then((res) => {
-            console.log(res);
+          .then(res => {
             if (res.status === 200) {
               this.$router.push({ name: "listTickets" });
             }
           })
-          .catch((err) => console.log(err));
+          .catch(err => {
+            let title = "Error";
+            let text = "Something went wrong";
+            if (err.response.data === "email") {
+              title = "User doesn't exist";
+              text = "No user with this email address";
+            } else if (err.response.data === "password") {
+              title = "Wrong password";
+              text = "Make sure caps lock is off";
+            }
+            this.$notify({
+              group: "form",
+              type: "error",
+              title,
+              text
+            });
+          });
         return true;
       }
-      console.log("error submitting!!");
       return false;
     });
   }
 }
-console.log(this);
 </script>

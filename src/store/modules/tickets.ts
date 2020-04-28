@@ -12,10 +12,9 @@ export const state: State = {
 const actions = {
   register(context, data) {
     return new Promise((resolve, reject) => {
-      axios
-        .post("http://localhost:3002/users/register", data)
+      axios 
+        .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/register", data)
         .then(res => {
-          console.log(res);
           resolve(res);
         })
         .catch(err => {
@@ -26,10 +25,9 @@ const actions = {
   unathenticate(context) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://localhost:3002/users/signout")
+        .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout")
         .then(res => {
           context.commit("unathenticate");
-          console.log(res);
           resolve(res);
         })
         .catch(err => {
@@ -41,7 +39,7 @@ const actions = {
   authenticate(context, creds) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://localhost:3002/users/signin", creds)
+        .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin", creds)
         .then(res => {
           context.commit("setAuthentication");
           resolve(res);
@@ -50,13 +48,13 @@ const actions = {
     });
   },
   async fetchData({ commit }) {
-    const res = await axios.get("http://localhost:3002");
+    const res = await axios.get(process.env.VUE_APP_SERVER_ADDRESS+"");
     commit("setData", res.data);
   },
   addTicket(context, data) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://localhost:3002/tickets", data)
+        .post(process.env.VUE_APP_SERVER_ADDRESS + "/tickets", data)
         .then(res => {
           resolve(res);
         })

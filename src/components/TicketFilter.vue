@@ -1,6 +1,5 @@
 <template>
   <el-select
-    v-on:change="changeRoute"
     v-model="value"
     filterable
     placeholder="Filter by type"
@@ -20,7 +19,7 @@ import { FilterOptions } from "../types/types";
 @Component
 export default class TicketFilter extends Vue {
   @Prop() value: string;
-  @Prop() private options: FilterOptions[] = [
+  private options: FilterOptions[] = [
     { value: "", label: "List All" },
     {
       value: "outgoing",
@@ -35,9 +34,5 @@ export default class TicketFilter extends Vue {
       label: "Take a ticket"
     }
   ];
-
-  changeRoute() {
-    this.$router.push({ path: this.value });
-  }
 }
 </script>

@@ -140,7 +140,6 @@ export default class AddTicket extends Vue {
             description: this.ruleForm.description
           })
           .then(res => {
-            console.log(res);
             if (res.status === 200) {
               this.$router.push({ name: "listTickets" });
             }
@@ -155,7 +154,6 @@ export default class AddTicket extends Vue {
         };
         return true;
       }
-      console.log("error submitting!!");
       return false;
     });
   }
@@ -166,5 +164,4 @@ export default class AddTicket extends Vue {
     ref.resetFields();
   }
 }
-console.log(this);
 </script>
