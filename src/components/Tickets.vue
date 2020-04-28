@@ -1,6 +1,7 @@
 <template>
   <el-row>
-    <el-col
+    {{tickets}} 
+    <!-- <el-col
       :span="8"
       v-for="ticket in tickets"
       :key="ticket.id"
@@ -18,25 +19,29 @@
         </div>
         <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
-    </el-col>
+    </el-col> -->
   </el-row>
 </template>
 
 <script lang="ts">
+
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 const tickets = namespace("ticketState");
+
 
 @Component({
   name: "Tickets",
   components: {}
 })
 export default class Tickets extends Vue {
+
   @Prop() index: number;
 
   @tickets.State tickets;
   @tickets.Action fetchData;
+
 
   created() {
     this.fetchData();
