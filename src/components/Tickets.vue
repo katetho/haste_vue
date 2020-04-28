@@ -3,41 +3,48 @@
     {{tickets}} 
     <!-- <el-col
       :span="8"
-      v-for="(o, index) in 4"
-      :key="o"
+      v-for="ticket in tickets"
+      :key="ticket.id"
       :offset="index > 0 ? 2 : 0"
     >
       <el-card :body-style="{ padding: '0px' }">
         <div slot="header" class="clearfix el-cardheader" align="left">
-          <span>Card name</span>
+          <span>{{ ticket.title }}</span>
           <el-button style="float: right; padding: 3px 0" type="text"
             >Close Ticket
           </el-button>
         </div>
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "List item " + o }}
+        <div class="text item">
+          {{ ticket.description }}
         </div>
+        <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
     </el-col> -->
   </el-row>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const tickets = namespace("tickets");
+const tickets = namespace("ticketState");
+
 
 @Component({
   name: "Tickets",
   components: {}
 })
 export default class Tickets extends Vue {
+
+  @Prop() index: number;
+
   @tickets.State tickets;
-  @tickets.Action fetchTickets;
+  @tickets.Action fetchData;
+
 
   created() {
-    this.fetchTickets();
+    this.fetchData();
   }
 }
 </script>

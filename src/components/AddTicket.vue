@@ -1,76 +1,167 @@
 <template>
-  <el-row>
-    <el-col :span="8">
-      <div class="grid-content bg-purple-dark">
-        <el-form ref="form" :model="form" label-width="120px" align="left">
-          <el-form-item label="Title" align="left">
-            <el-input v-model="form.title"></el-input>
-          </el-form-item>
-          <el-form-item label="Department" align="left">
-            <el-select v-model="form.department" placeholder="Department">
-              <el-option label="Sales" value="Sales"></el-option>
-              <el-option
-                label="IT department"
-                value="IT department"
-              ></el-option>
-              <el-option
-                label="Customer Support"
-                value="Customer Support"
-              ></el-option>
-              <el-option label="Staff" value="Staff"></el-option>
-              <el-option label="External" value="External"></el-option>
-              <el-option label="Other" value="Other"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Deadline" align="left">
-            <el-col :span="11">
-              <el-date-picker
-                type="date"
-                placeholder="yyyy-mm-dd"
-                v-model="form.date1"
-                style="width: 100%;"
-              ></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2"></el-col>
-          </el-form-item>
-          <el-form-item label="Priority" align="left">
-            <el-select v-model="form.priority" placeholder="Priority">
-              <el-option label="Urgent" value="Urgent"></el-option>
-              <el-option label="High" value="High"></el-option>
-              <el-option label="Normal" value="Normal"></el-option>
-              <el-option label="Low" value="Low"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Description" align="left">
-            <el-input type="textarea" v-model="form.description"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">Create</el-button>
-            <el-button @click="$router.go(-1)">Cancel</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-col>
-  </el-row>
+  <div>
+    <h1>Create a ticket</h1>
+    <el-form
+      :model="ruleForm"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="140px"
+    >
+      <el-form-item label="Title" prop="title">
+        <el-input
+          type="text"
+          v-model="ruleForm.title"
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="Department" prop="department">
+        <el-select v-model="ruleForm.department" placeholder="Department">
+          <el-option label="Sales" value="Sales"></el-option>
+          <el-option label="IT department" value="IT department"></el-option>
+          <el-option
+            label="Customer Support"
+            value="Customer Support"
+          ></el-option>
+          <el-option label="Staff" value="Staff"></el-option>
+          <el-option label="External" value="External"></el-option>
+          <el-option label="Other" value="Other"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Priority" prop="priority">
+        <el-select v-model="ruleForm.priority" placeholder="Priority">
+          <el-option label="Urgent" value="Urgent"></el-option>
+          <el-option label="High" value="High"></el-option>
+          <el-option label="Normal" value="Normal"></el-option>
+          <el-option label="Low" value="Low"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Deadline" prop="deadline">
+        <el-date-picker
+          type="date"
+          v-model="ruleForm.deadline"
+          autocomplete="off"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="Description" prop="description">
+        <el-input
+          type="textarea"
+          v-model="ruleForm.description"
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-row type="flex" justify="center">
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >Submit</el-button
+          >
+          <el-button @click="$router.go(-1)">Cancel</el-button>
+        </el-row>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { FormData } from "../types/types";
+import { Component, Vue } from "vue-property-decorator";
+import { FormAdd } from "../types/types";
 @Component
 export default class AddTicket extends Vue {
-  @Prop() form: FormData = {
+  ruleForm: FormAdd = {
     title: "",
     department: "",
-    deadline: new Date(),
     priority: "",
+    deadline: new Date(),
     description: ""
   };
-  onSubmit() {
-    console.log(this.form);
+
+  valiDate = (rule, value, callback) => {
+    if (value instanceof Date) {
+      callback();
+    } else {
+      callback(new Error(""));
+    }
+  };
+
+  get rules() {
+    return {
+      title: [
+        { required: true, message: "Empty title", trigger: "blur" },
+        {
+          min: 3,
+          max: 20,
+          message: "Length should be 3 to 20",
+          trigger: "blur"
+        }
+      ],
+      department: [
+        { required: true, message: "Missing department", trigger: "blur" },
+        {
+          min: 3,
+          max: 20,
+          message: "Length should be 3 to 20",
+          trigger: "blur"
+        }
+      ],
+      priority: [
+        { required: true, message: "Missing priority", trigger: "blur" },
+        {
+          min: 3,
+          max: 20,
+          message: "Length should be 3 to 20",
+          trigger: "blur"
+        }
+      ],
+      description: [
+        { required: true, message: "Empty description", trigger: "blur" },
+        {
+          min: 3,
+          max: 500,
+          message: "Length should be 3 to 500",
+          trigger: "blur"
+        }
+      ],
+      deadline: [
+        { required: true, message: "Missing deadline", trigger: "blur" },
+        { validator: this.valiDate, trigger: "blur" }
+      ]
+    };
+  }
+
+  submitForm(formName) {
+    (this.$refs[formName] as any).validate(valid => {
+      if (valid) {
+        this.$store
+          .dispatch("ticketState/addTicket", {
+            title: this.ruleForm.title,
+            department: this.ruleForm.department,
+            priority: this.ruleForm.priority,
+            deadline: this.ruleForm.deadline,
+            description: this.ruleForm.description
+          })
+          .then(res => {
+            if (res.status === 200) {
+              this.$router.push({ name: "listTickets" });
+            }
+          })
+          .catch(err => console.log(err));
+        this.ruleForm = {
+          title: "",
+          department: "",
+          priority: "",
+          deadline: new Date(),
+          description: ""
+        };
+        return true;
+      }
+      return false;
+    });
+  }
+
+  resetForm(formName) {
+    // this.$refs[formName].resetFields();
+    const ref: any = this.$refs[formName];
+    ref.resetFields();
   }
 }
-console.log(this);
 </script>
-
-<style></style>
