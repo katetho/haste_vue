@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (!store.getters.loggedIn) {
       next({
-        path: "signin"
+        name: "signin"
       });
     } else {
       next();
@@ -81,7 +81,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
     if (store.getters.loggedIn) {
       next({
-        path: "listTickets"
+        name: "listTickets"
       });
     } else {
       next();

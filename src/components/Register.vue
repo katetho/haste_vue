@@ -69,17 +69,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { FormRegister } from "../types/types";
 @Component
 export default class Register extends Vue {
-  ruleForm = {
+  ruleForm: FormRegister = {
     password: "",
     repPassword: "",
     firstName: "",
     lastName: "",
     email: "",
-    department: "",
+    department: ""
   };
 
   checkPass = (rule, value, callback) => {
@@ -91,15 +91,19 @@ export default class Register extends Vue {
   };
 
   validatePass = (rule, value, callback) => {
-    if ((/^(?=\w*\d)(?=\w*[a-zA-Z])\w{8,50}$/).test(value)) {
+    if (/^(?=\w*\d)(?=\w*[a-zA-Z])\w{8,50}$/.test(value)) {
       callback();
     } else {
-      callback(new Error("Password should consist of 8 or more symbols, including numbers"));
+      callback(
+        new Error(
+          "Password should consist of 8 or more symbols, including numbers"
+        )
+      );
     }
   };
 
- validateEmail = (rule, value, callback) => {
-    if ((/^\w{1,64}@(?:\w|\.){1,256}$/).test(value)) {
+  validateEmail = (rule, value, callback) => {
+    if (/^\w{1,64}@(?:\w|\.){1,256}$/.test(value)) {
       callback();
     } else {
       callback(new Error("Invalid email address"));
@@ -114,8 +118,8 @@ export default class Register extends Vue {
           min: 3,
           max: 20,
           message: "Length should be 3 to 20",
-          trigger: "blur",
-        },
+          trigger: "blur"
+        }
       ],
       lastName: [
         { required: true, message: "Please enter your name", trigger: "blur" },
@@ -123,8 +127,8 @@ export default class Register extends Vue {
           min: 3,
           max: 20,
           message: "Length should be 3 to 20",
-          trigger: "blur",
-        },
+          trigger: "blur"
+        }
       ],
       password: [
         { required: true, message: "Please enter a password", trigger: "blur" },
@@ -141,38 +145,38 @@ export default class Register extends Vue {
           min: 3,
           max: 20,
           message: "Length should be 3 to 20",
-          trigger: "blur",
-        },
-      ],
+          trigger: "blur"
+        }
+      ]
     };
   }
 
   submitForm(formName) {
-    (this.$refs[formName] as any).validate((valid) => {
+    (this.$refs[formName] as any).validate(valid => {
       if (valid) {
-            this.$store
-      .dispatch("ticketState/register", {
-        firstName: this.ruleForm.firstName,
-        lastName: this.ruleForm.lastName,
-        email: this.ruleForm.email,
-        department: this.ruleForm.department,
-        password: this.ruleForm.password,
-        repPassword: this.ruleForm.repPassword
-      })
-      .then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          this.$router.push({ name: "signin" });
-        }
-      })
-      .catch(err => console.log(err));
+        this.$store
+          .dispatch("ticketState/register", {
+            firstName: this.ruleForm.firstName,
+            lastName: this.ruleForm.lastName,
+            email: this.ruleForm.email,
+            department: this.ruleForm.department,
+            password: this.ruleForm.password,
+            repPassword: this.ruleForm.repPassword
+          })
+          .then(res => {
+            console.log(res);
+            if (res.status === 200) {
+              this.$router.push({ name: "signin" });
+            }
+          })
+          .catch(err => console.log(err));
         this.ruleForm = {
           password: "",
           repPassword: "",
           firstName: "",
           lastName: "",
           email: "",
-          department: "",
+          department: ""
         };
         return true;
       }

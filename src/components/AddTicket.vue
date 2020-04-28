@@ -63,19 +63,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { FormRegister } from "../types/types";
+import { Component, Vue } from "vue-property-decorator";
+import { FormAdd } from "../types/types";
 @Component
-export default class Register extends Vue {
-  ruleForm = {
+export default class AddTicket extends Vue {
+  ruleForm: FormAdd = {
     title: "",
     department: "",
     priority: "",
     deadline: new Date(),
-    description: "",
+    description: ""
   };
 
-valiDate = (rule, value, callback) => {
+  valiDate = (rule, value, callback) => {
     if (value instanceof Date) {
       callback();
     } else {
@@ -91,8 +91,8 @@ valiDate = (rule, value, callback) => {
           min: 3,
           max: 20,
           message: "Length should be 3 to 20",
-          trigger: "blur",
-        },
+          trigger: "blur"
+        }
       ],
       department: [
         { required: true, message: "Missing department", trigger: "blur" },
@@ -100,8 +100,8 @@ valiDate = (rule, value, callback) => {
           min: 3,
           max: 20,
           message: "Length should be 3 to 20",
-          trigger: "blur",
-        },
+          trigger: "blur"
+        }
       ],
       priority: [
         { required: true, message: "Missing priority", trigger: "blur" },
@@ -109,8 +109,8 @@ valiDate = (rule, value, callback) => {
           min: 3,
           max: 20,
           message: "Length should be 3 to 20",
-          trigger: "blur",
-        },
+          trigger: "blur"
+        }
       ],
       description: [
         { required: true, message: "Empty description", trigger: "blur" },
@@ -118,40 +118,40 @@ valiDate = (rule, value, callback) => {
           min: 3,
           max: 500,
           message: "Length should be 3 to 500",
-          trigger: "blur",
-        },
+          trigger: "blur"
+        }
       ],
       deadline: [
         { required: true, message: "Missing deadline", trigger: "blur" },
         { validator: this.valiDate, trigger: "blur" }
-      ],
+      ]
     };
   }
 
   submitForm(formName) {
-    (this.$refs[formName] as any).validate((valid) => {
+    (this.$refs[formName] as any).validate(valid => {
       if (valid) {
         this.$store
-          .dispatch("ticketState/add", {
+          .dispatch("ticketState/addTicket", {
             title: this.ruleForm.title,
             department: this.ruleForm.department,
             priority: this.ruleForm.priority,
             deadline: this.ruleForm.deadline,
-            description: this.ruleForm.description,
+            description: this.ruleForm.description
           })
-          .then((res) => {
+          .then(res => {
             console.log(res);
             if (res.status === 200) {
               this.$router.push({ name: "listTickets" });
             }
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
         this.ruleForm = {
           title: "",
           department: "",
           priority: "",
           deadline: new Date(),
-          description: "",
+          description: ""
         };
         return true;
       }

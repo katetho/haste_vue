@@ -4,7 +4,9 @@ import { State } from "../../types/types";
 
 export const state: State = {
   authenticated: false,
-  tickets: []
+  tickets: [],
+  ticketFilter: "",
+  statusFilter: ""
 };
 
 const actions = {
@@ -50,6 +52,16 @@ const actions = {
   async fetchData({ commit }) {
     const res = await axios.get("http://localhost:3002");
     commit("setData", res.data);
+  },
+  addTicket(context, data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("http://localhost:3002/tickets", data)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
   }
 };
 

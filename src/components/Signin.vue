@@ -40,7 +40,7 @@ import { FormSignin } from "../types/types";
 
 @Component
 export default class Signin extends Vue {
-  @Prop() ruleForm: FormSignin = {
+   ruleForm: FormSignin = {
     email: "",
     password: "",
   };
@@ -85,7 +85,7 @@ export default class Signin extends Vue {
           .catch((err) => console.log(err));
         return true;
       }
-      console.log("error submit!!");
+      console.log("error submitting!!");
       return false;
     });
   }
