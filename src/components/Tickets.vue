@@ -1,7 +1,6 @@
 <template>
   <el-row>
-    {{tickets}} 
-    <!-- <el-col
+     <el-col
       :span="8"
       v-for="ticket in tickets"
       :key="ticket.id"
@@ -15,7 +14,7 @@
           </div>
           <div v-else-if="ticket.assignedToCurrent">
             <el-button 
-              @click="takeTicket(ticket.id)" style="float: right; padding: 3px 0" type="text"
+              @click="closeTicket(ticket.id)" style="float: right; padding: 3px 0" type="text"
               >Close Ticket
             </el-button>
           </div>
@@ -36,7 +35,7 @@
         </div>
         <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
-    </el-col> -->
+    </el-col> 
   </el-row>
 </template>
 
@@ -72,7 +71,7 @@ export default class Tickets extends Vue {
   }
 
   closeTicket(ticketId) {
-    this.$store.dispatch("ticketState/setTicketTaken", {ticketId})
+    this.$store.dispatch("ticketState/setTicketClosed", {ticketId})
     .then(()=>{
     this.$store.dispatch("ticketState/fetchData");
     })

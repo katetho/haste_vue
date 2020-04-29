@@ -86,6 +86,16 @@ const actions = {
       })
       .catch((err) => reject(err));
     })
+  },
+  setTicketClosed(contex, id) {
+    return new Promise((resolve, reject) => {
+      transport
+      .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/close", id)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => reject(err));
+    })
   }
 };
 
