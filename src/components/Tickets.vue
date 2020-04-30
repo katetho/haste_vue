@@ -1,20 +1,17 @@
 <template>
-  <el-row>
-     <el-col
-      :span="8"
-      v-for="ticket in tickets"
-      :key="ticket.id"
-      :offset="index > 0 ? 2 : 0"
-    >
+  <el-row type="flex" :gutter="20">
+    <el-col class="box" :span="12" v-for="ticket in tickets" :key="ticket.id">
       <el-card :body-style="{ padding: '0px' }">
         <div slot="header" class="clearfix el-cardheader" align="left">
           <span>{{ ticket.title }}</span>
-          <div v-if="ticket.status==='closed'">
+          <div v-if="ticket.status === 'closed'">
             <span class="text">Closed</span>
           </div>
           <div v-else-if="user.id == ticket.assigneeID">
-            <el-button 
-              @click="closeTicket(ticket.id)" style="float: right; padding: 3px 0" type="text"
+            <el-button
+              @click="closeTicket(ticket.id)"
+              style="float: right; padding: 3px 0"
+              type="text"
               >Close Ticket
             </el-button>
           </div>
@@ -35,47 +32,43 @@
         </div>
         <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
-    </el-col> 
+    </el-col>
   </el-row>
 </template>
 
 <script lang="ts">
-
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 const tickets = namespace("ticketState");
-
 
 @Component({
   name: "Tickets",
   components: {}
 })
 export default class Tickets extends Vue {
-
   @Prop() index: number;
 
   @tickets.State tickets;
   @tickets.Action fetchData;
   @tickets.State user;
 
-
   created() {
     this.fetchData();
   }
 
   takeTicket(ticketId) {
-    this.$store.dispatch("ticketState/setTicketTaken", ticketId)
-    .then(()=>{
-    this.$store.dispatch("ticketState/fetchData");
-    })
+    this.$store.dispatch("ticketState/setTicketTaken", ticketId).then(() => {
+      this.$store.dispatch("ticketState/fetchData");
+    });
   }
 
   closeTicket(ticketId) {
-    this.$store.dispatch("ticketState/setTicketClosed", {ticketId})
-    .then(()=>{
-    this.$store.dispatch("ticketState/fetchData");
-    })
+    this.$store
+      .dispatch("ticketState/setTicketClosed", { ticketId })
+      .then(() => {
+        this.$store.dispatch("ticketState/fetchData");
+      });
   }
 }
 </script>
@@ -89,6 +82,9 @@ export default class Tickets extends Vue {
 
 .text {
   font-size: 14px;
+}
+.box{
+  // width: 300px;
 }
 
 .item {

@@ -30,27 +30,27 @@
           <el-row>
             <el-col :span="16">
               <div class="grid-content">
-                <el-col :span="8">
-                  <div class="grid-content">
+                <el-col :span="6">
+                  <div class="grid-content filter">
                     <StatusFilter />
                   </div>
                 </el-col>
-                <el-col :span="8">
-                  <div class="grid-content">
+                <el-col :span="6">
+                  <div class="grid-content filter">
                     <TicketFilter />
                   </div>
                 </el-col>
               </div>
             </el-col>
             <el-col :span="8">
-              <div class="grid-content">
+              <div class="grid-content controls">
                 <el-button type="primary" @click="$router.push('add')"
                   >New Ticket</el-button
                 >
               </div>
             </el-col>
           </el-row>
-          <el-divider></el-divider>
+          <!-- <el-divider></el-divider> -->
           <el-row>
             <router-view></router-view>
           </el-row>
@@ -85,3 +85,11 @@ export default class Home extends Vue {
   }
 }
 </script>
+<style scoped>
+.controls {
+  text-align: right;
+}
+.filter{
+  text-align: left;
+}
+</style>

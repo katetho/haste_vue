@@ -1,3 +1,7 @@
+body{
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -7,7 +11,7 @@
 }
 
 #nav {
-  padding: 30px;
+  // padding: 30px;
 
   a {
     font-weight: bold;
@@ -55,4 +59,11 @@ body {
 
 .el-form-item__label {
   text-align: left;
+}
+.el-aside{
+  background: #fff;
+  border-right: solid 1px #e6e6e6;
+}
+.el-menu-vertical-demo.el-menu{
+  border-right: none;
 }
