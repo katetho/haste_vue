@@ -3,13 +3,10 @@
     <el-container>
       <el-container>
         <el-aside width="200px">
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-          >
-            <el-menu-item index="3" align="left">
+          <el-menu default-active="2" class="el-menu-vertical-demo">
+            <div class="aside-search">
               <SearchBar />
-            </el-menu-item>
+            </div>
             <el-menu-item index="1" align="left">
               <i class="el-icon-menu"></i>
               <span>Dashboard</span>
