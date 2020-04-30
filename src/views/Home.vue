@@ -8,9 +8,7 @@
             class="el-menu-vertical-demo"
           >
             <el-menu-item index="3" align="left">
-              <span>
-                <el-input placeholder="Search..." v-model="input"></el-input>
-              </span>
+              <SearchBar />
             </el-menu-item>
             <el-menu-item index="1" align="left">
               <i class="el-icon-menu"></i>
@@ -66,13 +64,15 @@ import Tickets from "@/components/Tickets.vue";
 import AddTicket from "@/components/AddTicket.vue";
 import StatusFilter from "@/components/StatusFilter.vue";
 import TicketFilter from "@/components/TicketFilter.vue";
+import SearchBar from "@/components/SearchBar.vue";
 
 @Component({
   components: {
     Tickets,
     StatusFilter,
     TicketFilter,
-    AddTicket
+    AddTicket,
+    SearchBar
   }
 })
 export default class Home extends Vue {
