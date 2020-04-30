@@ -26,6 +26,7 @@
         </el-aside>
         <el-main>
           <el-row>
+            <!-- v-if="$route.name !='add'" -->
             <el-col :span="16">
               <div class="grid-content">
                 <el-col :span="6">
@@ -86,10 +87,14 @@ export default class Home extends Vue {
 }
 </script>
 <style scoped>
+.aside-search {
+  padding: 0 5px;
+  margin-top: 20px;
+}
 .controls {
   text-align: right;
 }
-.filter{
+.filter {
   text-align: left;
 }
 </style>
