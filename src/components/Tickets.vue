@@ -1,80 +1,43 @@
 <template>
   <el-row>
-     <el-col
+    {{tickets}} 
+    <!-- <el-col
       :span="8"
-      v-for="ticket in tickets"
-      :key="ticket.id"
+      v-for="(o, index) in 4"
+      :key="o"
       :offset="index > 0 ? 2 : 0"
     >
       <el-card :body-style="{ padding: '0px' }">
         <div slot="header" class="clearfix el-cardheader" align="left">
-          <span>{{ ticket.title }}</span>
-          <div v-if="ticket.status==='closed'">
-            <span class="text">Closed</span>
-          </div>
-          <div v-else-if="ticket.assignedToCurrent">
-            <el-button 
-              @click="closeTicket(ticket.id)" style="float: right; padding: 3px 0" type="text"
-              >Close Ticket
-            </el-button>
-          </div>
-          <div v-else-if="ticket.assignee && !ticket.assignedToCurrent">
-            Assigned to: {{ ticket.assignee }}
-          </div>
-          <div v-else-if="!ticket.assignee">
-            <el-button
-              @click="takeTicket(ticket.id)"
-              style="float: right; padding: 3px 0"
-              type="text"
-              >Take Ticket
-            </el-button>
-          </div>
+          <span>Card name</span>
+          <el-button style="float: right; padding: 3px 0" type="text"
+            >Close Ticket
+          </el-button>
         </div>
-        <div class="text item">
-          {{ ticket.description }}
+        <div v-for="o in 4" :key="o" class="text item">
+          {{ "List item " + o }}
         </div>
-        <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
-    </el-col> 
+    </el-col> -->
   </el-row>
 </template>
 
 <script lang="ts">
-
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const tickets = namespace("ticketState");
-
+const tickets = namespace("tickets");
 
 @Component({
   name: "Tickets",
   components: {}
 })
 export default class Tickets extends Vue {
-
-  @Prop() index: number;
-
   @tickets.State tickets;
-  @tickets.Action fetchData;
-
+  @tickets.Action fetchTickets;
 
   created() {
-    this.fetchData();
-  }
-
-  takeTicket(ticketId) {
-    this.$store.dispatch("ticketState/setTicketTaken", ticketId)
-    .then(()=>{
-    this.$store.dispatch("ticketState/fetchData");
-    })
-  }
-
-  closeTicket(ticketId) {
-    this.$store.dispatch("ticketState/setTicketClosed", {ticketId})
-    .then(()=>{
-    this.$store.dispatch("ticketState/fetchData");
-    })
+    this.fetchTickets();
   }
 }
 </script>
