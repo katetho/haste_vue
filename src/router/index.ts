@@ -52,12 +52,18 @@ const routes: Array<RouteConfig> = [
     children: [
       {
         path: "add",
-        component: AddTicket
+        component: AddTicket,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/",
         name: "listTickets",
-        component: Tickets
+        component: Tickets,
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   }

@@ -1,36 +1,39 @@
 import axios from "axios";
 import { GetterTree } from "vuex";
 import { State } from "../../types/types";
+const transport = axios.create({
+  withCredentials: true
+});
 
 export const state: State = {
   authenticated: false,
   tickets: [],
   ticketFilter: "",
-  statusFilter: ""
+  statusFilter: "active"
 };
 
 const actions = {
   register(context, data) {
     return new Promise((resolve, reject) => {
-      axios 
+      transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/register", data)
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   },
   unathenticate(context) {
     return new Promise((resolve, reject) => {
-      axios
-        .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout")
-        .then(res => {
+      transport
+        .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout/")
+        .then((res) => {
           context.commit("unathenticate");
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           context.commit("unathenticate");
           reject(err);
         });
@@ -38,28 +41,61 @@ const actions = {
   },
   authenticate(context, creds) {
     return new Promise((resolve, reject) => {
-      axios
+      transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin", creds)
-        .then(res => {
+        .then((res) => {
           context.commit("setAuthentication");
           resolve(res);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   },
-  async fetchData({ commit }) {
-    const res = await axios.get(process.env.VUE_APP_SERVER_ADDRESS+"");
-    commit("setData", res.data);
+  async fetchData(context) {
+    const res = await transport.get(
+      process.env.VUE_APP_SERVER_ADDRESS +
+        "/" +
+        context.state.ticketFilter +
+        "?status=" +
+        context.state.statusFilter
+    );
+    context.commit("setData", res.data);
+    console.log(res.data);
   },
   addTicket(context, data) {
     return new Promise((resolve, reject) => {
-      axios
+      transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/tickets", data)
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
+  },
+  setTicketType(context, ticketType) {
+    context.commit("setTicketFilter", ticketType);
+  },
+  setStatusFilter(context, ticketStatus) {
+    context.commit("setStatusFilter", ticketStatus);
+  },
+  setTicketTaken(contex, id) {
+    return new Promise((resolve, reject) => {
+      transport
+      .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/"+id)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => reject(err));
+    })
+  },
+  setTicketClosed(contex, id) {
+    return new Promise((resolve, reject) => {
+      transport
+      .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/close", id)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => reject(err));
+    })
   }
 };
 
@@ -68,7 +104,9 @@ const mutations = {
     state.tickets = payload;
   },
   setAuthentication: (state: State) => (state.authenticated = true),
-  unathenticate: (state: State) => (state.authenticated = false)
+  unathenticate: (state: State) => (state.authenticated = false),
+  setTicketFilter: (state: State, payload) => (state.ticketFilter = payload),
+  setStatusFilter: (state: State, payload) => (state.statusFilter = payload)
 };
 
 export const getters: GetterTree<State, any> = {

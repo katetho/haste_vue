@@ -1,5 +1,6 @@
 <template>
   <el-select
+    v-on:change="changeType"
     v-model="value"
     filterable
     placeholder="Filter by type"
@@ -18,7 +19,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { FilterOptions } from "../types/types";
 @Component
 export default class TicketFilter extends Vue {
-  @Prop() value: string;
+value="";
   private options: FilterOptions[] = [
     { value: "", label: "List All" },
     {
@@ -34,5 +35,10 @@ export default class TicketFilter extends Vue {
       label: "Take a ticket"
     }
   ];
+
+  changeType() {
+    this.$store.dispatch("ticketState/setTicketType", this.value);
+    this.$store.dispatch("ticketState/fetchData")
+  }
 }
 </script>
