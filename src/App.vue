@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <notifications group="form" />
     <router-view />
   </div>
 </template>
