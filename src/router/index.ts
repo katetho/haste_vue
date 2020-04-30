@@ -52,6 +52,7 @@ const routes: Array<RouteConfig> = [
     children: [
       {
         path: "add",
+        name:"add",
         component: AddTicket,
         meta: {
           requiresAuth: true

@@ -1,35 +1,39 @@
 <template>
-  <el-row type="flex" :gutter="20">
-    <el-col class="box" :span="12" v-for="ticket in tickets" :key="ticket.id">
+  <el-row type="flex" class="list-block" :gutter="20">
+    <el-col class="box" :span="6" v-for="ticket in tickets" :key="ticket.id">
       <el-card :body-style="{ padding: '0px' }">
         <div slot="header" class="clearfix el-cardheader" align="left">
-          <span>{{ ticket.title }}</span>
-          <div v-if="ticket.status === 'closed'">
-            <span class="text">Closed</span>
-          </div>
-          <div v-else-if="user.id == ticket.assigneeID">
-            <el-button
-              @click="closeTicket(ticket.id)"
-              style="float: right; padding: 3px 0"
-              type="text"
-              >Close Ticket
-            </el-button>
-          </div>
-          <div v-else-if="ticket.assignee && !ticket.assignedToCurrent">
-            Assigned to: {{ ticket.assignee }}
-          </div>
-          <div v-else-if="!ticket.assignee">
-            <el-button
-              @click="takeTicket(ticket.id)"
-              style="float: right; padding: 3px 0"
-              type="text"
-              >Take Ticket
-            </el-button>
-          </div>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="12">
+              <div>
+                <span>{{ ticket.title }}</span>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="controls">
+                <div v-if="ticket.status === 'closed'">
+                  <el-tag type="info">Closed</el-tag>
+                </div>
+                <div v-else-if="user.id == ticket.assigneeID">
+                  <el-button @click="closeTicket(ticket.id)" type="warning"
+                    >Close Ticket</el-button
+                  >
+                </div>
+                <div v-else-if="ticket.assignee && !ticket.assignedToCurrent">
+                  <el-tag type="info">
+                    Assigned to: {{ ticket.assignee }}
+                  </el-tag>
+                </div>
+                <div v-else-if="!ticket.assignee">
+                  <el-button @click="takeTicket(ticket.id)" type="success"
+                    >Take Ticket</el-button
+                  >
+                </div>
+              </div>
+            </el-col>
+          </el-row>
         </div>
-        <div class="text item">
-          {{ ticket.description }}
-        </div>
+        <div class="text item">{{ ticket.description }}</div>
         <div class="text item">Deadline: {{ ticket.deadline }}</div>
       </el-card>
     </el-col>
@@ -83,10 +87,17 @@ export default class Tickets extends Vue {
 .text {
   font-size: 14px;
 }
-.box{
-  // width: 300px;
+.list-block {
+  flex-wrap: wrap;
+}
+.controls {
+  text-align: right;
 }
 
+.box {
+  min-height: 100px;
+  margin-bottom: 15px;
+}
 .item {
   margin-top: 18px;
   margin-bottom: 18px;

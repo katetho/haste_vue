@@ -3,15 +3,10 @@
     <el-container>
       <el-container>
         <el-aside width="200px">
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-          >
-            <el-menu-item index="3" align="left">
-              <span>
-                <el-input placeholder="Search..." v-model="input"></el-input>
-              </span>
-            </el-menu-item>
+          <el-menu default-active="2" class="el-menu-vertical-demo">
+            <div class="aside-search">
+              <el-input placeholder="Search..." v-model="input"></el-input>
+            </div>
             <el-menu-item index="1" align="left">
               <i class="el-icon-menu"></i>
               <span>Dashboard</span>
@@ -28,6 +23,7 @@
         </el-aside>
         <el-main>
           <el-row>
+            <!-- v-if="$route.name !='add'" -->
             <el-col :span="16">
               <div class="grid-content">
                 <el-col :span="6">
@@ -86,10 +82,14 @@ export default class Home extends Vue {
 }
 </script>
 <style scoped>
+.aside-search {
+  padding: 0 5px;
+  margin-top: 20px;
+}
 .controls {
   text-align: right;
 }
-.filter{
+.filter {
   text-align: left;
 }
 </style>
