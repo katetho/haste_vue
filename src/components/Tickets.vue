@@ -12,7 +12,7 @@
           <div v-if="ticket.status==='closed'">
             <span class="text">Closed</span>
           </div>
-          <div v-else-if="ticket.assignedToCurrent">
+          <div v-else-if="user.id == ticket.assigneeID">
             <el-button 
               @click="closeTicket(ticket.id)" style="float: right; padding: 3px 0" type="text"
               >Close Ticket
@@ -57,6 +57,7 @@ export default class Tickets extends Vue {
 
   @tickets.State tickets;
   @tickets.Action fetchData;
+  @tickets.State user;
 
 
   created() {

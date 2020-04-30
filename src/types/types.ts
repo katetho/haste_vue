@@ -30,4 +30,5 @@ export interface State {
   tickets: string[];
   ticketFilter: string;
   statusFilter: string;
+  user: any;
 }

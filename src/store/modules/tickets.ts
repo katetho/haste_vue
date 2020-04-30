@@ -9,7 +9,8 @@ export const state: State = {
   authenticated: false,
   tickets: [],
   ticketFilter: "",
-  statusFilter: "active"
+  statusFilter: "active",
+  user: null
 };
 
 const actions = {
@@ -45,7 +46,7 @@ const actions = {
       transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin", creds)
         .then((res) => {
-          console.log(document.cookie)
+          context.commit("setUser", res.data);
           context.commit("setAuthentication", true);
           resolve(res);
         })
@@ -108,12 +109,14 @@ const mutations = {
   },
   setAuthentication: (state: State, payload) => (state.authenticated = payload),
   setTicketFilter: (state: State, payload) => (state.ticketFilter = payload),
-  setStatusFilter: (state: State, payload) => (state.statusFilter = payload)
+  setStatusFilter: (state: State, payload) => (state.statusFilter = payload),
+  setUser: (state: State, payload) => (state.user = payload)
 };
 
 export const getters: GetterTree<State, any> = {
   loggedIn: (state: State) => state.authenticated,
-  allTickets: (state: State) => state.tickets
+  allTickets: (state: State) => state.tickets,
+  getUser: (state: State) => state.user
 };
 
 export default {
