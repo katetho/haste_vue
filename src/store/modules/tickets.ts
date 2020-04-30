@@ -28,13 +28,14 @@ const actions = {
   unathenticate(context) {
     return new Promise((resolve, reject) => {
       transport
-        .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout/")
+        .get(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout/")
         .then((res) => {
-          context.commit("unathenticate");
+          context.commit("setAuthentication", false);
           resolve(res);
         })
+        .then(() => localStorage.authenticated=false)
         .catch((err) => {
-          context.commit("unathenticate");
+          context.commit("setAuthentication", false);
           reject(err);
         });
     });
@@ -44,9 +45,11 @@ const actions = {
       transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin", creds)
         .then((res) => {
-          context.commit("setAuthentication");
+          console.log(document.cookie)
+          context.commit("setAuthentication", true);
           resolve(res);
         })
+        .then(() => localStorage.authenticated=true)
         .catch((err) => reject(err));
     });
   },
@@ -103,8 +106,7 @@ const mutations = {
   setData(state: State, payload) {
     state.tickets = payload;
   },
-  setAuthentication: (state: State) => (state.authenticated = true),
-  unathenticate: (state: State) => (state.authenticated = false),
+  setAuthentication: (state: State, payload) => (state.authenticated = payload),
   setTicketFilter: (state: State, payload) => (state.ticketFilter = payload),
   setStatusFilter: (state: State, payload) => (state.statusFilter = payload)
 };
