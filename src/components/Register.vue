@@ -1,29 +1,36 @@
 <template>
-  <el-form ref="form" :model="form" label-width="120px" align="left">
-    <el-form-item>
-      <el-col :span="11">
-        <h1 align="center">Register</h1>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-col :span="11">
+  <div>
+    <h1>Register</h1>
+    <el-form
+      :model="ruleForm"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="140px"
+    >
+      <el-form-item label="First Name" prop="firstName">
         <el-input
-          placeholder="First Name"
-          v-model="form.firstName"
-          style="width: 100%;"
+          type="text"
+          v-model="ruleForm.firstName"
+          autocomplete="off"
         ></el-input>
-      </el-col>
-      <el-col :span="11">
+      </el-form-item>
+      <el-form-item label="Last Name" prop="lastName">
         <el-input
-          placeholder="Last Name"
-          v-model="form.lastName"
-          style="width: 100%;"
+          type="text"
+          v-model="ruleForm.lastName"
+          autocomplete="off"
         ></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-col :span="11">
-        <el-select v-model="form.department" placeholder="Department">
+      </el-form-item>
+      <el-form-item label="Email" prop="email">
+        <el-input
+          type="text"
+          v-model="ruleForm.email"
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="Department" prop="department">
+        <el-select v-model="ruleForm.department" placeholder="Department">
           <el-option label="Sales" value="Sales"></el-option>
           <el-option label="IT department" value="IT department"></el-option>
           <el-option
@@ -34,63 +41,152 @@
           <el-option label="External" value="External"></el-option>
           <el-option label="Other" value="Other"></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="11">
-        <el-select v-model="form.priority" placeholder="Priority">
-          <el-option label="Urgent" value="Urgent"></el-option>
-          <el-option label="High" value="High"></el-option>
-          <el-option label="Normal" value="Normal"></el-option>
-          <el-option label="Low" value="Low"></el-option>
-        </el-select>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-col :span="11">
+      </el-form-item>
+      <el-form-item label="Password" prop="password">
         <el-input
-          placeholder="Password"
-          v-model="form.password"
-          style="width: 100%;"
+          type="password"
+          v-model="ruleForm.password"
+          autocomplete="off"
         ></el-input>
-      </el-col>
-      <el-col :span="11">
+      </el-form-item>
+      <el-form-item label="Repeat Password" prop="repPassword">
         <el-input
-          placeholder="Repeat Password"
-          v-model="form.repPassword"
-          style="width: 100%;"
+          type="password"
+          v-model="ruleForm.repPassword"
+          autocomplete="off"
         ></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-col :span="11">
-        <el-button type="primary" @click="onSubmit">Register</el-button>
-        <el-button @click="$router.go(-1)">Cancel</el-button>
-      </el-col>
-    </el-form-item>
-  </el-form>
+      </el-form-item>
+      <el-form-item>
+        <el-row type="flex" justify="center">
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >Submit</el-button
+          >
+          <el-button @click="$router.go(-1)">Cancel</el-button>
+        </el-row>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { FormRegister } from "../types/types";
 @Component
-export default class AddTicket extends Vue {
-  @Prop() form: FormRegister = {
+export default class Register extends Vue {
+  ruleForm: FormRegister = {
+    password: "",
+    repPassword: "",
     firstName: "",
     lastName: "",
     email: "",
-    department: "",
-    password: "",
-    repPassword: ""
+    department: ""
   };
-  onSubmit() {
-    console.log(this.form);
+
+  checkPass = (rule, value, callback) => {
+    if (value === this.ruleForm.password) {
+      callback();
+    } else {
+      callback(new Error("Passwords don't match"));
+    }
+  };
+
+  validatePass = (rule, value, callback) => {
+    if (/^(?=\w*\d)(?=\w*[a-zA-Z])\w{8,50}$/.test(value)) {
+      callback();
+    } else {
+      callback(
+        new Error(
+          "Password should consist of 8 or more symbols, including numbers"
+        )
+      );
+    }
+  };
+
+  validateEmail = (rule, value, callback) => {
+    if (/^\w{1,64}@(?:\w|\.){1,256}$/.test(value)) {
+      callback();
+    } else {
+      callback(new Error("Invalid email address"));
+    }
+  };
+
+  get rules() {
+    return {
+      firstName: [
+        { required: true, message: "Please enter your name", trigger: "blur" },
+        {
+          min: 3,
+          max: 20,
+          message: "Length should be 3 to 20",
+          trigger: "blur"
+        }
+      ],
+      lastName: [
+        { required: true, message: "Please enter your name", trigger: "blur" },
+        {
+          min: 3,
+          max: 20,
+          message: "Length should be 3 to 20",
+          trigger: "blur"
+        }
+      ],
+      password: [
+        { required: true, message: "Please enter a password", trigger: "blur" },
+        { validator: this.validatePass, trigger: "blur" }
+      ],
+      repPassword: [{ validator: this.checkPass, trigger: "blur" }],
+      email: [
+        { required: true, message: "Please enter your name", trigger: "blur" },
+        { validator: this.validateEmail, trigger: "blur" }
+      ],
+      department: [
+        { required: true, message: "Please enter your name", trigger: "blur" },
+        {
+          min: 3,
+          max: 20,
+          message: "Length should be 3 to 20",
+          trigger: "blur"
+        }
+      ]
+    };
+  }
+
+  submitForm(formName) {
+    (this.$refs[formName] as any).validate(valid => {
+      if (valid) {
+        this.$store
+          .dispatch("ticketState/register", {
+            firstName: this.ruleForm.firstName,
+            lastName: this.ruleForm.lastName,
+            email: this.ruleForm.email,
+            department: this.ruleForm.department,
+            password: this.ruleForm.password,
+            repPassword: this.ruleForm.repPassword
+          })
+          .then(res => {
+            if (res.status === 200) {
+              this.$router.push({ name: "signin" });
+            }
+          })
+          .catch(err => {
+            const errorMsg = err.response.data.join(", ");
+            this.$notify({
+              group: "form",
+              type: "error",
+              text: errorMsg[0].toUpperCase() + errorMsg.slice(1)
+            });
+          });
+        return true;
+      }
+      console.log("error!!");
+      return false;
+    });
+  }
+
+  resetForm(formName) {
+    // this.$refs[formName].resetFields();
+    const ref: any = this.$refs[formName];
+    ref.resetFields();
   }
 }
-console.log(this);
 </script>
-
-<style scoped>
-.el-form {
-  padding: 10% 0%;
-}
-</style>

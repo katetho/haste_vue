@@ -7,6 +7,7 @@ import Home from "../views/Home.vue";
 import Users from "../views/Users.vue";
 import AddTicket from "../components/AddTicket.vue";
 import Missing from "../views/404.vue";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -15,14 +16,24 @@ const routes: Array<RouteConfig> = [
     path: "/users",
     name: "Users",
     component: Users,
+    meta: {
+      requiresVisitor: true
+    },
     children: [
       {
         path: "signin",
-        component: Signin
+        name: "signin",
+        component: Signin,
+        meta: {
+          requiresVisitor: true
+        }
       },
       {
         path: "register",
-        component: Register
+        component: Register,
+        meta: {
+          requiresVisitor: true
+        }
       }
     ]
   },
@@ -35,14 +46,24 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "add",
-        component: AddTicket
+        component: AddTicket,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/",
-        component: Tickets
+        name: "listTickets",
+        component: Tickets,
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   }
@@ -50,6 +71,30 @@ const routes: Array<RouteConfig> = [
 
 const router = new VueRouter({
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters.loggedIn) {
+      next({
+        name: "signin"
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.loggedIn) {
+      next({
+        name: "listTickets"
+      });
+    } else {
+      next();
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
 });
 
 export default router;

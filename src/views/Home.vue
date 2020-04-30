@@ -6,8 +6,6 @@
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
           >
             <el-menu-item index="3" align="left">
               <span>
@@ -22,7 +20,7 @@
               <i class="el-icon-menu"></i>
               <span>Take a ticket</span>
             </el-menu-item>
-            <el-menu-item index="4" align="left">
+            <el-menu-item index="4" @click="logOut" align="left">
               <i class="el-icon-menu"></i>
               <span>Logout</span>
             </el-menu-item>
@@ -31,21 +29,21 @@
         <el-main>
           <el-row>
             <el-col :span="16">
-              <div class="grid-content bg-purple-dark">
+              <div class="grid-content">
                 <el-col :span="8">
-                  <div class="grid-content bg-purple-dark">
+                  <div class="grid-content">
                     <StatusFilter />
                   </div>
                 </el-col>
                 <el-col :span="8">
-                  <div class="grid-content bg-purple-dark">
+                  <div class="grid-content">
                     <TicketFilter />
                   </div>
                 </el-col>
               </div>
             </el-col>
             <el-col :span="8">
-              <div class="grid-content bg-purple-dark">
+              <div class="grid-content">
                 <el-button type="primary" @click="$router.push('add')"
                   >New Ticket</el-button
                 >
@@ -79,5 +77,11 @@ import TicketFilter from "@/components/TicketFilter.vue";
 })
 export default class Home extends Vue {
   @Prop() private input!: string;
+
+  logOut() {
+    this.$store.dispatch("ticketState/unathenticate").then(() => {
+      this.$router.push({ name: "signin" });
+    });
+  }
 }
 </script>

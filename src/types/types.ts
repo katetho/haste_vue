@@ -1,4 +1,4 @@
-export interface FormData {
+export interface FormAdd {
     title: string
     department: string
     deadline: Date
@@ -24,3 +24,10 @@ export interface FilterOptions {
     value: string;
     label: string;
   }
+
+export interface State {
+  authenticated: boolean;
+  tickets: string[];
+  ticketFilter: string;
+  statusFilter: string;
+}
