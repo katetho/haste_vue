@@ -23,15 +23,14 @@
         </el-aside>
         <el-main>
           <el-row>
-            <!-- v-if="$route.name !='add'" -->
             <el-col :span="16">
               <div class="grid-content">
-                <el-col :span="6">
+                <el-col :span="6" v-if="$route.name != 'add'">
                   <div class="grid-content filter">
                     <StatusFilter />
                   </div>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="6" v-if="$route.name != 'add'">
                   <div class="grid-content filter">
                     <TicketFilter />
                   </div>
