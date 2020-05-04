@@ -6,7 +6,7 @@ const transport = axios.create({
 });
 
 export const state: State = {
-  authenticated: false,
+  authenticated: localStorage.authenticated,
   tickets: [],
   ticketFilter: "",
   statusFilter: "active",
@@ -32,9 +32,9 @@ const actions = {
         .get(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout/")
         .then((res) => {
           context.commit("setAuthentication", false);
+          localStorage.authenticated=false
           resolve(res);
         })
-        .then(() => localStorage.authenticated=false)
         .catch((err) => {
           context.commit("setAuthentication", false);
           reject(err);
@@ -48,9 +48,9 @@ const actions = {
         .then((res) => {
           context.commit("setUser", res.data);
           context.commit("setAuthentication", true);
+          localStorage.authenticated=true;
           resolve(res);
         })
-        .then(() => localStorage.authenticated=true)
         .catch((err) => reject(err));
     });
   },
