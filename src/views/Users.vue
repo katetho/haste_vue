@@ -17,11 +17,10 @@ export default class Users extends Vue {
   @tickets.State authenticated;
 
   created() {
-    if(this.authenticated) {
-      console.log("logged in")
-    }
-    else {
-      console.log("not logged in")
+    if (this.authenticated) {
+      console.log("logged in");
+    } else {
+      console.log("not logged in");
     }
   }
 }

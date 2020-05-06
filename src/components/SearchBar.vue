@@ -2,7 +2,7 @@
   <span>
     <el-input
       v-on:change="search"
-      placeholder="Search..."
+      :placeholder="$t('nav.search')"
       v-model="input"
     ></el-input>
   </span>
@@ -17,18 +17,17 @@ const tickets = namespace("ticketState");
 @Component
 export default class Search extends Vue {
   input = "";
+  PHValue="234"
   @tickets.State tickets;
 
   search() {
-    const matches = this.tickets.filter((el) => {
+    const matches = this.tickets.filter(el => {
       return el.title.includes(this.input);
     });
-    console.log(matches);
-    if (!(matches.length === 0)) {
+    if (matches.length > 0) {
       this.$store.commit("ticketState/setData", matches);
-    }
-    else {
-        this.$store.dispatch("ticketState/fetchData")
+    } else {
+      this.$store.dispatch("ticketState/fetchData");
     }
   }
 }

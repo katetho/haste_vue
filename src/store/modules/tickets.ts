@@ -10,7 +10,7 @@ export const state: State = {
   tickets: [],
   ticketFilter: "",
   statusFilter: "active",
-  user: null
+  userID: localStorage.userID
 };
 
 const actions = {
@@ -18,10 +18,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/register", data)
-        .then((res) => {
+        .then(res => {
           resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -30,12 +30,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       transport
         .get(process.env.VUE_APP_SERVER_ADDRESS + "/users/signout/")
-        .then((res) => {
+        .then(res => {
           context.commit("setAuthentication", false);
-          localStorage.authenticated=false
+          localStorage.authenticated = false;
+          context.commit("setTicketFilter", "");
+          context.commit("setStatusFilter", "active");
+          context.commit("setUser", null);
+          localStorage.userID = null;
           resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           context.commit("setAuthentication", false);
           reject(err);
         });
@@ -45,13 +49,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin", creds)
-        .then((res) => {
-          context.commit("setUser", res.data);
+        .then(res => {
+          context.commit("setUser", res.data.id);
+          localStorage.userID = res.data.id;
           context.commit("setAuthentication", true);
-          localStorage.authenticated=true;
+          localStorage.authenticated = true;
           resolve(res);
         })
-        .catch((err) => reject(err));
+        .catch(err => reject(err));
     });
   },
   async fetchData(context) {
@@ -63,16 +68,15 @@ const actions = {
         context.state.statusFilter
     );
     context.commit("setData", res.data);
-    console.log(res.data);
   },
   addTicket(context, data) {
     return new Promise((resolve, reject) => {
       transport
         .post(process.env.VUE_APP_SERVER_ADDRESS + "/tickets", data)
-        .then((res) => {
+        .then(res => {
           resolve(res);
         })
-        .catch((err) => reject(err));
+        .catch(err => reject(err));
     });
   },
   setTicketType(context, ticketType) {
@@ -84,22 +88,22 @@ const actions = {
   setTicketTaken(contex, id) {
     return new Promise((resolve, reject) => {
       transport
-      .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/"+id)
-      .then((res) => {
-        resolve(res);
-      })
-      .catch((err) => reject(err));
-    })
+        .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/" + id)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
   },
   setTicketClosed(contex, id) {
     return new Promise((resolve, reject) => {
       transport
-      .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/close", id)
-      .then((res) => {
-        resolve(res);
-      })
-      .catch((err) => reject(err));
-    })
+        .patch(process.env.VUE_APP_SERVER_ADDRESS + "/tickets/close", id)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
   }
 };
 
@@ -110,13 +114,13 @@ const mutations = {
   setAuthentication: (state: State, payload) => (state.authenticated = payload),
   setTicketFilter: (state: State, payload) => (state.ticketFilter = payload),
   setStatusFilter: (state: State, payload) => (state.statusFilter = payload),
-  setUser: (state: State, payload) => (state.user = payload)
+  setUser: (state: State, payload) => (state.userID = payload)
 };
 
 export const getters: GetterTree<State, any> = {
   loggedIn: (state: State) => state.authenticated,
   allTickets: (state: State) => state.tickets,
-  getUser: (state: State) => state.user
+  getUser: (state: State) => state.userID
 };
 
 export default {

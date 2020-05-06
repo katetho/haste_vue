@@ -52,7 +52,7 @@ const routes: Array<RouteConfig> = [
     children: [
       {
         path: "add",
-        name:"add",
+        name: "add",
         component: AddTicket,
         meta: {
           requiresAuth: true
@@ -78,9 +78,9 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    console.log(store.getters.loggedIn)
-    if (store.getters.loggedIn==="false") {
-      console.log(store.getters.loggedIn)
+    console.log(store.getters.loggedIn);
+    if (store.getters.loggedIn === "false") {
+      console.log(store.getters.loggedIn);
       next({
         name: "signin"
       });
@@ -88,7 +88,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-    if (store.getters.loggedIn==="true") {
+    if (store.getters.loggedIn === "true") {
       next({
         name: "listTickets"
       });

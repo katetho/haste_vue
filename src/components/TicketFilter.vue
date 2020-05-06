@@ -19,7 +19,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { FilterOptions } from "../types/types";
 @Component
 export default class TicketFilter extends Vue {
-value="";
+  value = "";
   private options: FilterOptions[] = [
     { value: "", label: "List All" },
     {
@@ -38,7 +38,7 @@ value="";
 
   changeType() {
     this.$store.dispatch("ticketState/setTicketType", this.value);
-    this.$store.dispatch("ticketState/fetchData")
+    this.$store.dispatch("ticketState/fetchData");
   }
 }
 </script>

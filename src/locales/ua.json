@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "dashboard": "Головна",
+    "taketicket": "Взяти завдання",
+    "logout": "Вихiд",
+    "search": "Пошук..."
+  },
+  "filters": {
+    "status": {
+      "title": "Фільтр за статусом",
+      "active": "Активні",
+      "assigned": "Призначені",
+      "unassigned": "Не призначені",
+      "closed": "Закриті"
+    },
+    "type": {
+      "title": "Фільтр за типом",
+      "listall": "Всі завдання",
+      "outgoing": "Вихідні завдання",
+      "mytickets": "Мої завдання",
+      "taketicket": "Взяти завдання"
+    }
+  }
+}

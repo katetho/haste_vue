@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "taketicket": "Take a ticket",
+    "logout": "Logout",
+    "search": "Search"
+  },
+  "filters": {
+    "status": {
+      "title": "Filter by status",
+      "active": "Active",
+      "assigned": "Assigned",
+      "unassigned": "Unassigned",
+      "closed": "Closed"
+    },
+    "type": {
+      "title": "Filter by type",
+      "listall": "List All",
+      "outgoing": "Outgoing",
+      "mytickets": "My tickets",
+      "taketicket": "Take a ticket"
+    }
+  }
+}

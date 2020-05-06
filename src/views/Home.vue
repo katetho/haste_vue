@@ -7,17 +7,17 @@
             <div class="aside-search">
               <SearchBar />
             </div>
-            <el-menu-item index="1" align="left">
+            <el-menu-item index="1" @click="$router.push('/')" align="left">
               <i class="el-icon-menu"></i>
-              <span>Dashboard</span>
+              <span>{{$t("nav.dashboard")}}</span>
             </el-menu-item>
-            <el-menu-item index="2" align="left">
+            <el-menu-item index="2" @click="takeTicket" align="left">
               <i class="el-icon-menu"></i>
-              <span>Take a ticket</span>
+              <span>{{$t("nav.taketicket")}}</span>
             </el-menu-item>
             <el-menu-item index="4" @click="logOut" align="left">
               <i class="el-icon-menu"></i>
-              <span>Logout</span>
+              <span>{{$t("nav.logout")}}</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
@@ -33,6 +33,11 @@
                 <el-col :span="6" v-if="$route.name != 'add'">
                   <div class="grid-content filter">
                     <TicketFilter />
+                  </div>
+                </el-col>
+                <el-col :span="6" v-if="$route.name != 'add'">
+                  <div class="grid-content filter">
+                    <DeadlineFilter />
                   </div>
                 </el-col>
               </div>
@@ -62,6 +67,7 @@ import AddTicket from "@/components/AddTicket.vue";
 import StatusFilter from "@/components/StatusFilter.vue";
 import TicketFilter from "@/components/TicketFilter.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import DeadlineFilter from "@/components/DeadlineFilter.vue";
 
 @Component({
   components: {
@@ -69,17 +75,22 @@ import SearchBar from "@/components/SearchBar.vue";
     StatusFilter,
     TicketFilter,
     AddTicket,
-    SearchBar
+    SearchBar,
+    DeadlineFilter
   }
 })
 export default class Home extends Vue {
   @Prop() private input!: string;
 
   logOut() {
-    this.$store.dispatch("ticketState/unathenticate")
-    .then(() => {
+    this.$store.dispatch("ticketState/unathenticate").then(() => {
       this.$router.push({ name: "signin" });
     });
+  }
+
+  takeTicket() {
+    this.$store.dispatch("ticketState/setTicketType", "taketicket");
+    this.$store.dispatch("ticketState/fetchData");
   }
 }
 </script>

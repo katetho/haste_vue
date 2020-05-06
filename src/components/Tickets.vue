@@ -14,7 +14,7 @@
                 <div v-if="ticket.status === 'closed'">
                   <el-tag type="info">Closed</el-tag>
                 </div>
-                <div v-else-if="user.id == ticket.assigneeID">
+                <div v-else-if="userID == ticket.assigneeID">
                   <el-button @click="closeTicket(ticket.id)" type="warning"
                     >Close Ticket</el-button
                   >
@@ -34,7 +34,7 @@
           </el-row>
         </div>
         <div class="text item">{{ ticket.description }}</div>
-        <div class="text item">Deadline: {{ ticket.deadline }}</div>
+        <div class="text item">Deadline: {{ moment(ticket.deadline) }}</div>
       </el-card>
     </el-col>
   </el-row>
@@ -43,6 +43,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import moment from "moment";
 
 const tickets = namespace("ticketState");
 
@@ -55,7 +56,11 @@ export default class Tickets extends Vue {
 
   @tickets.State tickets;
   @tickets.Action fetchData;
-  @tickets.State user;
+  @tickets.State userID;
+
+  moment(date) {
+    return moment.utc(date).format("MMMM Do YYYY, h:mm:ss a");
+  }
 
   created() {
     this.fetchData();

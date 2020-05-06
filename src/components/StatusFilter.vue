@@ -1,6 +1,10 @@
 <template>
   <el-select
-    v-on:change="changeStatus" v-model="value" filterable placeholder="Filter by status">
+    v-on:change="changeStatus"
+    v-model="value"
+    filterable
+    placeholder="Filter by status"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -11,11 +15,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { FilterOptions } from "../types/types";
 @Component
 export default class StatusFilter extends Vue {
-  value="";
+  value = "";
   options: FilterOptions[] = [
     { value: "active", label: "Active" },
     {
@@ -34,7 +38,7 @@ export default class StatusFilter extends Vue {
 
   changeStatus() {
     this.$store.dispatch("ticketState/setStatusFilter", this.value);
-    this.$store.dispatch("ticketState/fetchData")
+    this.$store.dispatch("ticketState/fetchData");
   }
 }
 </script>
