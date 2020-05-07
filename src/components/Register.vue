@@ -44,7 +44,6 @@
       </el-form-item>
       <el-form-item label="Password" prop="password">
         <el-input
-          type="password"
           v-model="ruleForm.password"
           autocomplete="off"
         ></el-input>

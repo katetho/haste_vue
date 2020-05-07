@@ -27,7 +27,7 @@ export interface FilterOptions {
 
 export interface State {
   authenticated: boolean;
-  tickets: string[];
+  tickets: object[];
   ticketFilter: string;
   statusFilter: string;
   userID: any;

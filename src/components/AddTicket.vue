@@ -38,6 +38,7 @@
       </el-form-item>
       <el-form-item label="Deadline" prop="deadline">
         <el-date-picker
+      v-on:change="onChange"
           type="date"
           v-model="ruleForm.deadline"
           autocomplete="off"
@@ -65,6 +66,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FormAdd } from "../types/types";
+import moment from "moment"
 @Component
 export default class AddTicket extends Vue {
   ruleForm: FormAdd = {
@@ -136,7 +138,7 @@ export default class AddTicket extends Vue {
             title: this.ruleForm.title,
             department: this.ruleForm.department,
             priority: this.ruleForm.priority,
-            deadline: this.ruleForm.deadline,
+            deadline: this.ruleForm.deadline.toLocaleString(),
             description: this.ruleForm.description
           })
           .then(res => {
@@ -156,6 +158,10 @@ export default class AddTicket extends Vue {
       }
       return false;
     });
+  }
+
+  onChange() {
+    console.log(this.ruleForm.deadline)
   }
 
   resetForm(formName) {

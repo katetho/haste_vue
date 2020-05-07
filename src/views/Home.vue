@@ -88,6 +88,10 @@ export default class Home extends Vue {
     });
   }
 
+  beforeUpdate() {
+    console.log("updated");
+  }
+  
   takeTicket() {
     this.$store.dispatch("ticketState/setTicketType", "taketicket");
     this.$store.dispatch("ticketState/fetchData");

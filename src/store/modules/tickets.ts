@@ -104,6 +104,24 @@ const actions = {
         })
         .catch(err => reject(err));
     });
+  },
+  getSignin(context) {
+    return new Promise((resolve, reject) => {
+      transport
+        .get(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin")
+        .then(res => {
+          if(res == null) {
+            context.commit("setAuthentication", false);
+            localStorage.authenticated = false;
+            context.commit("setTicketFilter", "");
+            context.commit("setStatusFilter", "active");
+            context.commit("setUser", null);
+            localStorage.userID = null;
+          }
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
   }
 };
 

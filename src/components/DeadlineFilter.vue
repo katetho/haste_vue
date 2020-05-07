@@ -24,31 +24,37 @@ export default class DeadlineFilter extends Vue {
   value = "";
   @tickets.State tickets;
   ticketsCopy: any[];
+  @tickets.State ticketFilter;
+  @tickets.State statusFilter;
+  ticketFilterCopy: string;
+  statusFilterCopy: string;
 
   created() {
-    this.$store.watch(
-      state => {
-        return this.$store.state.ticketFilter; // could also put a Getter here
-      },
-      () => {
-        if (this.tickets) {
-          this.ticketsCopy = [...this.tickets];
-        }
-      }
-    );
-    if (this.tickets) {
-      this.ticketsCopy = [...this.tickets];
-    }
+    this.ticketFilterCopy = this.ticketFilter;
   }
+
   onChange(picker) {
+    if (
+      (((!this.ticketsCopy || this.ticketsCopy.length === 0)) ||
+       (this.ticketFilter !== this.ticketFilterCopy) ||
+       (this.statusFilter !== this.statusFilterCopy)) &&
+      this.tickets
+    ) {
+      this.ticketsCopy = Array.from(this.tickets);
+      console.log(this.tickets);
+      this.ticketFilterCopy=this.ticketFilter;
+      this.statusFilterCopy=this.statusFilter;
+    }
     if (this.value) {
-      const matches = this.ticketsCopy.filter(el => {
-        console.log(moment(el.deadline).isBefore(this.value[1]));
-        return moment(el.deadline).isBetween(this.value[0], this.value[1]);
+      const matches = this.ticketsCopy.filter((el) => {
+        return moment(new Date(el.deadline)).isBetween(
+          this.value[0],
+          this.value[1]
+        );
       });
-      if (matches.length > 0) {
-        this.$store.commit("ticketState/setData", matches);
-      }
+      this.$store.commit("ticketState/setData", matches);
+    } else {
+      this.$store.dispatch("ticketState/fetchData");
     }
   }
 }

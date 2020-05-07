@@ -59,7 +59,7 @@ export default class Tickets extends Vue {
   @tickets.State userID;
 
   moment(date) {
-    return moment.utc(date).format("MMMM Do YYYY, h:mm:ss a");
+    return moment.utc(date).format("MMMM Do YYYY");
   }
 
   created() {

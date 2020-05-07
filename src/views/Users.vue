@@ -14,16 +14,8 @@ import { namespace } from "vuex-class";
 const tickets = namespace("ticketState");
 @Component
 export default class Users extends Vue {
-  @tickets.State authenticated;
-
-  created() {
-    if (this.authenticated) {
-      console.log("logged in");
-    } else {
-      console.log("not logged in");
-    }
-  }
 }
+
 </script>
 
 <style lang="scss">
