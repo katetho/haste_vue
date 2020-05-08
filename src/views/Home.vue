@@ -7,7 +7,7 @@
             <div class="aside-search">
               <SearchBar />
             </div>
-            <el-menu-item index="1" @click="$router.push('/')" align="left">
+            <el-menu-item index="1" @click="clearFilters" align="left">
               <i class="el-icon-menu"></i>
               <span>{{$t("nav.dashboard")}}</span>
             </el-menu-item>
@@ -92,6 +92,13 @@ export default class Home extends Vue {
     this.$store.dispatch("ticketState/setTicketType", "taketicket");
     this.$store.dispatch("ticketState/fetchData");
   }
+
+  clearFilters() {
+    this.$store.commit("ticketState/setTicketFilter", "");
+    this.$store.commit("ticketState/setStatusFilter", "");
+    this.$store.dispatch("ticketState/fetchData");
+  }
+
 }
 </script>
 <style scoped>
