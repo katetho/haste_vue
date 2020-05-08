@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 const tickets = namespace("ticketState");
@@ -24,23 +24,23 @@ export default class Search extends Vue {
   ticketFilterCopy: string;
   statusFilterCopy: string;
 
-  
   search() {
-    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+    this.$store.dispatch("ticketState/getSignin").then(signedin => {
       if (!signedin) {
         this.$router.push({ name: "signin" });
       }
     });
-     if (
-      (((!this.ticketsCopy || this.ticketsCopy.length === 0)) ||
-       (this.ticketFilter !== this.ticketFilterCopy) ||
-       (this.statusFilter !== this.statusFilterCopy)) &&
+    if (
+      (!this.ticketsCopy ||
+        this.ticketsCopy.length === 0 ||
+        this.ticketFilter !== this.ticketFilterCopy ||
+        this.statusFilter !== this.statusFilterCopy) &&
       this.tickets
     ) {
       this.ticketsCopy = Array.from(this.tickets);
       console.log(this.tickets);
-      this.ticketFilterCopy=this.ticketFilter;
-      this.statusFilterCopy=this.statusFilter;
+      this.ticketFilterCopy = this.ticketFilter;
+      this.statusFilterCopy = this.statusFilter;
     }
     const matches = this.ticketsCopy.filter(el => {
       return el.title.includes(this.input);

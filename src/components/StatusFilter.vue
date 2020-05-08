@@ -37,6 +37,11 @@ export default class StatusFilter extends Vue {
   ];
 
   changeStatus() {
+    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+      if (!signedin) {
+        this.$router.push({ name: "signin" });
+      }
+    });
     this.$store.dispatch("ticketState/setStatusFilter", this.value);
     this.$store.dispatch("ticketState/fetchData");
   }

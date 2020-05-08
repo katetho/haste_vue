@@ -32,7 +32,7 @@
       <el-form-item label="Department" prop="department">
         <el-select v-model="ruleForm.department" placeholder="Department">
           <el-option label="Sales" value="Sales"></el-option>
-          <el-option label="IT department" value="IT department"></el-option>
+          <el-option label="IT Department" value="IT Department"></el-option>
           <el-option
             label="Customer Support"
             value="Customer Support"
@@ -44,6 +44,7 @@
       </el-form-item>
       <el-form-item label="Password" prop="password">
         <el-input
+          type="password"
           v-model="ruleForm.password"
           autocomplete="off"
         ></el-input>

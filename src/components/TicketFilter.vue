@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { FilterOptions } from "../types/types";
 @Component
 export default class TicketFilter extends Vue {
@@ -37,7 +37,7 @@ export default class TicketFilter extends Vue {
   ];
 
   changeType() {
-    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+    this.$store.dispatch("ticketState/getSignin").then(signedin => {
       if (!signedin) {
         this.$router.push({ name: "signin" });
       }

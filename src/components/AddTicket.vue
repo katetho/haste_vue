@@ -38,7 +38,7 @@
       </el-form-item>
       <el-form-item label="Deadline" prop="deadline">
         <el-date-picker
-      v-on:change="onChange"
+          v-on:change="onChange"
           type="date"
           v-model="ruleForm.deadline"
           autocomplete="off"
@@ -66,7 +66,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FormAdd } from "../types/types";
-import moment from "moment"
 @Component
 export default class AddTicket extends Vue {
   ruleForm: FormAdd = {
@@ -161,7 +160,7 @@ export default class AddTicket extends Vue {
   }
 
   onChange() {
-    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+    this.$store.dispatch("ticketState/getSignin").then(signedin => {
       if (!signedin) {
         this.$router.push({ name: "signin" });
       }
