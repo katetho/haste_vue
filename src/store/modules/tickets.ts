@@ -110,15 +110,13 @@ const actions = {
       transport
         .get(process.env.VUE_APP_SERVER_ADDRESS + "/users/signin")
         .then(res => {
-          if(res == null) {
-            context.commit("setAuthentication", false);
-            localStorage.authenticated = false;
-            context.commit("setTicketFilter", "");
-            context.commit("setStatusFilter", "active");
-            context.commit("setUser", null);
-            localStorage.userID = null;
+          
+          if (Number(res.data)) {
+            resolve(true);
           }
-          resolve(res);
+          else {
+            resolve(false)
+          }
         })
         .catch(err => reject(err));
     });

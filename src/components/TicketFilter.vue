@@ -37,6 +37,11 @@ export default class TicketFilter extends Vue {
   ];
 
   changeType() {
+    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+      if (!signedin) {
+        this.$router.push({ name: "signin" });
+      }
+    });
     this.$store.dispatch("ticketState/setTicketType", this.value);
     this.$store.dispatch("ticketState/fetchData");
   }

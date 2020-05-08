@@ -29,11 +29,12 @@ export default class DeadlineFilter extends Vue {
   ticketFilterCopy: string;
   statusFilterCopy: string;
 
-  created() {
-    this.ticketFilterCopy = this.ticketFilter;
-  }
-
   onChange(picker) {
+    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+      if (!signedin) {
+        this.$router.push({ name: "signin" });
+      }
+    });
     if (
       (((!this.ticketsCopy || this.ticketsCopy.length === 0)) ||
        (this.ticketFilter !== this.ticketFilterCopy) ||

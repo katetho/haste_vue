@@ -87,10 +87,6 @@ export default class Home extends Vue {
       this.$router.push({ name: "signin" });
     });
   }
-
-  beforeUpdate() {
-    console.log("updated");
-  }
   
   takeTicket() {
     this.$store.dispatch("ticketState/setTicketType", "taketicket");

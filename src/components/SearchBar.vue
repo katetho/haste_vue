@@ -26,6 +26,11 @@ export default class Search extends Vue {
 
   
   search() {
+    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+      if (!signedin) {
+        this.$router.push({ name: "signin" });
+      }
+    });
      if (
       (((!this.ticketsCopy || this.ticketsCopy.length === 0)) ||
        (this.ticketFilter !== this.ticketFilterCopy) ||

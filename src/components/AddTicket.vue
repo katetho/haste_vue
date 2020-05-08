@@ -161,7 +161,11 @@ export default class AddTicket extends Vue {
   }
 
   onChange() {
-    console.log(this.ruleForm.deadline)
+    this.$store.dispatch("ticketState/getSignin").then((signedin) => {
+      if (!signedin) {
+        this.$router.push({ name: "signin" });
+      }
+    });
   }
 
   resetForm(formName) {
