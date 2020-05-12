@@ -1,5 +1,6 @@
 <template>
   <el-row type="flex" class="list-block" :gutter="20">
+    <div v-if="tickets.length !== 0">
     <el-col class="box" :span="6" v-for="ticket in tickets" :key="ticket.id">
       <el-card :body-style="{ padding: '0px' }">
         <div slot="header" class="clearfix el-cardheader" align="left">
@@ -9,6 +10,8 @@
                 <span>{{ ticket.title }}</span>
               </div>
             </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
             <el-col :span="12">
               <div class="controls">
                 <div v-if="ticket.status === 'closed'">
@@ -37,6 +40,10 @@
         <div class="text item">Deadline: {{ moment(ticket.deadline) }}</div>
       </el-card>
     </el-col>
+    </div>
+    <div v-else class="notickets">
+      <h1>No tickets yet...</h1>
+    </div>
   </el-row>
 </template>
 
@@ -88,15 +95,25 @@ export default class Tickets extends Vue {
   margin-left: 5%;
   margin-bottom: 5%;
 }
+::v-deep .el-card__header {
+min-height: 120px;
+max-height: 120px;
+}
+
+::v-deep .el-card__body {
+max-height: 200px;
+overflow: auto;
+}
 
 .text {
   font-size: 14px;
 }
+
 .list-block {
   flex-wrap: wrap;
 }
 .controls {
-  text-align: right;
+  text-align: left;
 }
 
 .box {
@@ -106,5 +123,9 @@ export default class Tickets extends Vue {
 .item {
   margin-top: 18px;
   margin-bottom: 18px;
+}
+
+.el-button {
+  padding: 7px;
 }
 </style>

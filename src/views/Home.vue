@@ -22,27 +22,33 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <el-row>
-            <el-col :span="16">
+          <el-row :gutter="24">
+            <el-col :span="18">
+              
               <div class="grid-content">
-                <el-col :span="6" v-if="$route.name != 'add'">
+                <el-col :span="5" v-if="$route.name != 'add'">
                   <div class="grid-content filter">
                     <StatusFilter />
                   </div>
                 </el-col>
-                <el-col :span="6" v-if="$route.name != 'add'">
+                <el-col :span="5" v-if="$route.name != 'add'">
                   <div class="grid-content filter">
                     <TicketFilter />
                   </div>
                 </el-col>
-                <el-col :span="6" v-if="$route.name != 'add'">
+                 <el-col :span="4" v-if="$route.name != 'add'">
+                  <div class="grid-content filter">
+                    <SortBy />
+                  </div>
+                </el-col>
+                <el-col :span="8" v-if="$route.name != 'add'">
                   <div class="grid-content filter">
                     <DeadlineFilter />
                   </div>
                 </el-col>
               </div>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <div class="grid-content controls">
                 <el-button type="primary" @click="$router.push('add')"
                   >New Ticket</el-button
@@ -68,6 +74,7 @@ import StatusFilter from "@/components/StatusFilter.vue";
 import TicketFilter from "@/components/TicketFilter.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import DeadlineFilter from "@/components/DeadlineFilter.vue";
+import SortBy from "@/components/SortBy.vue";
 
 @Component({
   components: {
@@ -76,7 +83,8 @@ import DeadlineFilter from "@/components/DeadlineFilter.vue";
     TicketFilter,
     AddTicket,
     SearchBar,
-    DeadlineFilter
+    DeadlineFilter,
+    SortBy
   }
 })
 export default class Home extends Vue {
@@ -95,7 +103,7 @@ export default class Home extends Vue {
 
   clearFilters() {
     this.$store.commit("ticketState/setTicketFilter", "");
-    this.$store.commit("ticketState/setStatusFilter", "");
+    this.$store.commit("ticketState/setStatusFilter", "active");
     this.$store.dispatch("ticketState/fetchData");
   }
 
