@@ -136,19 +136,15 @@ const mutations = {
 export const getters: GetterTree<State, any> = {
   loggedIn: (state: State) => state.authenticated,
   allTickets: (state: State) => state.tickets,
-  getUser: (state: State) => state.userID
-
-  // getById: (state, getters) => (id) => {
-  //   return state.articles.find(item => item.id === parseInt(id));
-  // }
-  // in vue 
-  //const storeName = namespace("tickets");
-  // @storeName.Getter getById: any;
-  // get filter() {
-  //   return this.getById(variable);
-  // }
-  // examples here https://blog.logrocket.com/how-to-write-a-vue-js-app-completely-in-typescript/
-};
+  getUser: (state: State) => state.userID,
+  getByTitle: (state, symbols) => (symbols) => {
+    if (symbols) {
+      return state.tickets.filter((el:any) => {
+       return el.title.includes(symbols);
+     });
+    }
+   }
+ };
 
 export default {
   namespaced: true,

@@ -21,6 +21,10 @@ export default class Search extends Vue {
   ticketsCopy: any[];
   @tickets.State ticketFilter;
   @tickets.State statusFilter;
+  @tickets.Getter getByTitle;
+  // get filter() {
+  //   return this.getById(variable);
+  // }
   ticketFilterCopy: string;
   statusFilterCopy: string;
 
@@ -38,17 +42,14 @@ export default class Search extends Vue {
       this.tickets
     ) {
       this.ticketsCopy = Array.from(this.tickets);
-      console.log(this.tickets);
       this.ticketFilterCopy = this.ticketFilter;
       this.statusFilterCopy = this.statusFilter;
     }
-    const matches = this.ticketsCopy.filter(el => {
-      return el.title.includes(this.input);
-    });
-    if (!(matches.length === 0)) {
+    const matches = this.getByTitle(this.input);
+    if (matches && matches.length > 0) {
       this.$store.commit("ticketState/setData", matches);
     } else {
-      this.$store.dispatch("ticketState/fetchData");
+      this.$store.commit("ticketState/setData", this.ticketsCopy);
     }
   }
 }
